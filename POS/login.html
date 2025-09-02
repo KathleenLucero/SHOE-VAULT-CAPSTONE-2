@@ -14,7 +14,7 @@
     <div class="login-container">
         <!-- Background Pattern -->
         <div class="background-pattern"></div>
-        
+
         <!-- Login Card -->
         <div class="login-card">
             <!-- Logo Section -->
@@ -31,8 +31,8 @@
             <!-- Login Form -->
             <div class="login-form">
                 <div class="form-header">
-                    <h2><i class="fas fa-user-circle"></i> Cashier Login</h2>
-                    <p>Enter your credentials to access the POS system</p>
+                    <h2><i class="fas fa-user-circle"></i> Login</h2>
+                    <p>Enter your credentials to access the system</p>
                 </div>
 
                 <form id="login-form" onsubmit="handleLogin(event)">
@@ -41,14 +41,7 @@
                             <i class="fas fa-user"></i>
                             Username
                         </label>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            name="username" 
-                            placeholder="Enter your username"
-                            required
-                            autocomplete="username"
-                        >
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required autocomplete="username">
                     </div>
 
                     <div class="form-group">
@@ -57,14 +50,7 @@
                             Password
                         </label>
                         <div class="password-input-container">
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                placeholder="Enter your password"
-                                required
-                                autocomplete="current-password"
-                            >
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
                             <button type="button" class="password-toggle" onclick="togglePassword()">
                                 <i class="fas fa-eye" id="password-icon"></i>
                             </button>
@@ -82,7 +68,7 @@
 
                     <button type="submit" class="login-btn" id="login-btn">
                         <i class="fas fa-sign-in-alt"></i>
-                        <span>Login to POS</span>
+                        <span>Login</span>
                     </button>
                 </form>
 
@@ -110,4 +96,4 @@
     <script src="login.js"></script>
 </body>
 
-</html> 
+</html>
