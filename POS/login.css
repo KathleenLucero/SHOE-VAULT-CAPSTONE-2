@@ -72,7 +72,7 @@ body {
     /* Reduced line height for compactness */
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     position: relative;
     overflow: hidden;
@@ -108,14 +108,12 @@ body {
 
 .login-container {
     width: 100%;
-    max-width: 550px;
-    /* Slightly reduced from 550px */
+    max-width: 1400px;
     margin: 0 auto;
-    padding: var(--spacing-md);
-    /* Reduced from var(--spacing-lg) */
+    padding: var(--spacing-lg);
     position: relative;
     z-index: 1;
-    height: auto;
+    height: 100vh;
 }
 
 
@@ -124,15 +122,14 @@ body {
 .login-card {
     background: #ffffff;
     border: 1px solid #e0e0e0;
-    /* Reduced border width */
     border-radius: var(--radius-xl);
-    /* Reduced from var(--radius-2xl) */
     box-shadow: var(--shadow-md);
-    /* Reduced from var(--shadow-xl) */
     overflow: hidden;
     position: relative;
     animation: slideInUp 0.6s ease-out;
-    height: auto;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.45fr 0.55fr;
 }
 
 @keyframes slideInUp {
@@ -150,11 +147,15 @@ body {
 /* Logo Section */
 
 .logo-section {
-    background: linear-gradient(135deg, #112c70 0%, #2a6aff 100%);
-    padding: var(--spacing-lg);
+    background: radial-gradient(220px 220px at 25% 28%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.06) 40%, transparent 60%), radial-gradient(180px 180px at 42% 78%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.06) 40%, transparent 60%), linear-gradient(180deg, #1d3b8b 0%, #2a6aff 100%);
+    padding: var(--spacing-2xl) var(--spacing-xl);
     text-align: center;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-section::before {
@@ -166,6 +167,13 @@ body {
     bottom: 0;
     background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
     animation: shimmer 3s infinite;
+}
+
+
+/* Wave divider on right edge */
+
+.logo-section::after {
+    content: none;
 }
 
 @keyframes shimmer {
@@ -182,8 +190,8 @@ body {
 }
 
 .logo-img {
-    width: 90px;
-    height: 90px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: 3px solid rgba(255, 255, 255, 0.3);
     box-shadow: var(--shadow-md);
@@ -200,7 +208,7 @@ body {
 
 .brand-name {
     font-family: var(--font-secondary);
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: var(--spacing-xs);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -216,12 +224,36 @@ body {
 /* Login Form */
 
 .login-form {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-xl) var(--spacing-2xl);
+    background: #ffffff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* Cloud scallops on the left edge of the white panel */
+
+.login-form::before {
+    content: none;
+}
+
+
+/* Decorative soft circles on the white panel corners */
+
+.login-form::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(120px 120px at 12% 22%, rgba(42, 106, 255, 0.10) 0%, transparent 60%), radial-gradient(160px 160px at 86% 28%, rgba(42, 106, 255, 0.08) 0%, transparent 60%), radial-gradient(110px 110px at 82% 80%, rgba(42, 106, 255, 0.06) 0%, transparent 60%), radial-gradient(140px 140px at 20% 85%, rgba(42, 106, 255, 0.07) 0%, transparent 60%);
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
 }
 
 .form-header h2 {
