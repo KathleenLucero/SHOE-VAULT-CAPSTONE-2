@@ -253,6 +253,38 @@
         <span>Transaction completed successfully!</span>
     </div>
 
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="modal-overlay">
+        <div class="product-modal-card">
+            <!-- Removed the close-modal-btn 'x' button -->
+            <div class="product-modal-content">
+                <div class="product-modal-image">
+                    <img id="modal-product-image" src="" alt="Product Image">
+                </div>
+                <div class="product-modal-info">
+                    <h2 id="modal-product-name"></h2>
+                    <p id="modal-product-brand"></p>
+                    <p id="modal-product-description"></p>
+                    <div class="product-modal-price">
+                        <span id="modal-product-price"></span>
+                    </div>
+                    <div class="product-modal-sizes">
+                        <label>Choose Size:</label>
+                        <div id="modal-size-options" class="modal-size-options"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-modal-actions">
+                <button id="modal-cancel-btn" class="modal-action-btn cancel-btn" onclick="closeProductModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button id="modal-add-to-cart-btn" class="modal-action-btn add-to-cart-btn"> 
+                    <i class="fas fa-plus"></i> Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="pos.js"></script>
 </body>
 

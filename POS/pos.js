@@ -531,7 +531,7 @@ function renderProducts() {
                     <span class="size-label">Sizes:</span>
                     ${product.sizes.map(size => `<span class="size-badge">${size}</span>`).join('')}
                 </div>
-                <button class="add-to-cart-btn" onclick="addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
+                <button class="add-to-cart-btn" onclick="openProductModal(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
                     <i class="fas fa-plus"></i>
                     ${product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
@@ -1135,8 +1135,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Payment input handling
-    document.getElementById('payment-amount').addEventListener('input', function() {
-        currentState.paymentAmount = this.value;
+    document.getElementById('payment-amount').removeAttribute('readonly');
+    document.getElementById('payment-amount').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^\d.]/g, '');
+        // Only allow one decimal point
+        if ((value.match(/\./g) || []).length > 1) {
+            value = value.replace(/\.(?=.*\.)/, '');
+        }
+        // Limit to 2 decimal places
+        if (value.includes('.')) {
+            const parts = value.split('.');
+            value = parts[0] + '.' + parts[1].slice(0,2);
+        }
+        e.target.value = value;
+        currentState.paymentAmount = value;
         updateChangeDisplay();
     });
     
@@ -1146,6 +1158,16 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
         }
     });
+    
+    // Product modal open/close
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            openProductModal(productId);
+        });
+    });
+    
+    document.getElementById('close-modal-btn').addEventListener('click', closeProductModal);
 });
 
 // ===== EXPOSE FUNCTIONS FOR HTML =====
@@ -1163,3 +1185,74 @@ window.closeReceipt = closeReceipt;
 window.printReceipt = printReceipt;
 window.showNotification = showNotification;
 window.logout = logout;
+
+// ===== MODAL FUNCTIONS =====
+function openProductModal(productId) {
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product) return;
+    document.getElementById('modal-product-image').src = product.image;
+    document.getElementById('modal-product-name').textContent = product.name;
+    document.getElementById('modal-product-brand').textContent = product.brand;
+    document.getElementById('modal-product-description').textContent = product.description;
+    document.getElementById('modal-product-price').textContent = formatPrice(product.price);
+    // Render size options as buttons
+    const sizeOptions = document.getElementById('modal-size-options');
+    sizeOptions.innerHTML = product.sizes.map(size => `
+        <label class="size-option-label">
+            <input type="radio" name="modal-size" value="${size}" style="display:none;">
+            <span class="size-option">${size}</span>
+        </label>
+    `).join('');
+    // Add click event for size buttons
+    Array.from(sizeOptions.querySelectorAll('.size-option-label')).forEach(label => {
+        label.onclick = function() {
+            Array.from(sizeOptions.querySelectorAll('input[type=radio]')).forEach(input => input.checked = false);
+            label.querySelector('input[type=radio]').checked = true;
+            Array.from(sizeOptions.querySelectorAll('.size-option-label')).forEach(l => l.classList.remove('selected'));
+            label.classList.add('selected');
+        };
+    });
+    // Show modal
+    document.getElementById('product-modal').classList.add('show');
+    // Set up add to cart button
+    const addBtn = document.getElementById('modal-add-to-cart-btn');
+    addBtn.onclick = function() {
+        const selectedRadio = sizeOptions.querySelector('input[type=radio]:checked');
+        if (!selectedRadio) {
+            alert('Please select a size.');
+            return;
+        }
+        addToCartWithSize(productId, selectedRadio.value);
+        closeProductModal();
+    };
+}
+
+function closeProductModal() {
+    document.getElementById('product-modal').classList.remove('show');
+}
+
+function addToCartWithSize(productId, size) {
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product || product.stock === 0) return;
+    // Check if product with same size is already in cart
+    const existingItem = currentState.cart.find(item => item.id === productId && item.size === size);
+    if (existingItem) {
+        if (existingItem.quantity < product.stock) {
+            existingItem.quantity++;
+            existingItem.subtotal = existingItem.quantity * existingItem.price;
+        }
+    } else {
+        currentState.cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            size: size,
+            quantity: 1,
+            subtotal: product.price,
+        });
+    }
+    renderCart();
+    updateCartSummary();
+    renderProducts();
+    showNotification(`${product.name} (Size ${size}) added to cart`, 'success');
+}
