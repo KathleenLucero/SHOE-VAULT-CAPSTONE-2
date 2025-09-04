@@ -161,6 +161,7 @@ body {
 .logo-section::before {
     content: '';
     position: absolute;
+    width: 250%;
     top: 0;
     left: 0;
     right: 0;
