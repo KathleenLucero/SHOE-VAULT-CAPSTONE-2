@@ -76,7 +76,7 @@
             <div class="header-left">
                 <h1 class="main-title">Point of Sale</h1>
             </div>
-            <div class="header-right">
+            <div class="header-right" style="margin-right: 440px;">
                 <div class="time-display">
                     <i class="fas fa-clock"></i>
                     <span id="current-time">Loading...</span>
@@ -88,8 +88,7 @@
             </div>
         </header>
 
-        <!-- Content Grid -->
-        <div class="content-grid">
+        <div class="main-content-wrapper">
             <!-- Products Section -->
             <section class="products-section">
                 <!-- Category Filter -->
@@ -129,28 +128,24 @@
                     <!-- Products will be dynamically loaded here -->
                 </div>
             </section>
-
-            <!-- Cart Section -->
-            <section class="cart-section">
-                <div class="cart-header">
-                    <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
-                    <button class="clear-cart-btn" id="clear-cart">
-                        <i class="fas fa-trash"></i>
-                        <span>Clear All</span>
-                    </button>
+        </div>
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar">
+            <div class="cart-header">
+                <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+                <button class="clear-cart-btn" id="clear-cart">
+                    <i class="fas fa-trash"></i>
+                    <span>Clear All</span>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some shoes to get started!</p>
                 </div>
-
-                <!-- Cart Items -->
-                <div class="cart-items" id="cart-items">
-                    <div class="empty-cart">
-                        <i class="fas fa-shopping-bag"></i>
-                        <h3>Your cart is empty</h3>
-                        <p>Add some shoes to get started!</p>
-                    </div>
-                </div>
-
-                <!-- Cart Summary -->
-                <div class="cart-summary">
+            </div>
+            <div class="cart-summary">
                     <div class="summary-row">
                         <span>Subtotal:</span>
                         <span id="subtotal">₱ 0.00</span>
@@ -164,57 +159,31 @@
                         <span id="total-amount">₱ 0.00</span>
                     </div>
                 </div>
-
-                <!-- Payment Section -->
-                <div class="payment-section">
-                    <h3><i class="fas fa-credit-card"></i> Payment</h3>
-
-                    <div class="payment-input-group">
-                        <label for="payment-amount">Cash Received:</label>
-                        <div class="payment-input-container">
-                            <span class="currency-symbol">₱</span>
-                            <input type="text" id="payment-amount" placeholder="0.00" readonly>
-                        </div>
-                    </div>
-
-                    <!-- Change Display -->
-                    <div class="change-display" id="change-display">
-                        <span>Change:</span>
-                        <span id="change-amount">₱ 0.00</span>
-                    </div>
-
-                    <!-- Number Pad -->
-                    <div class="number-pad">
-                        <button class="num-btn" data-number="1">1</button>
-                        <button class="num-btn" data-number="2">2</button>
-                        <button class="num-btn" data-number="3">3</button>
-                        <button class="num-btn" data-number="4">4</button>
-                        <button class="num-btn" data-number="5">5</button>
-                        <button class="num-btn" data-number="6">6</button>
-                        <button class="num-btn" data-number="7">7</button>
-                        <button class="num-btn" data-number="8">8</button>
-                        <button class="num-btn" data-number="9">9</button>
-                        <button class="num-btn" data-number=".">.</button>
-                        <button class="num-btn" data-number="0">0</button>
-                        <button class="num-btn clear-btn" id="clear-payment">
-                            <i class="fas fa-eraser"></i>
-                        </button>
-                    </div>
-
-                    <!-- Quick Amount Buttons -->
-                    <div class="quick-amounts">
-                        <button class="quick-amount-btn cancel-quick-btn" id="quick-cancel">
-                            <i class="fas fa-times"></i>
-                            <span>Cancel</span>
-                    </button>
-                        <button class="quick-amount-btn print-quick-btn" id="quick-print">
-                            <i class="fas fa-print"></i>
-                            <span>Print Receipt</span>
-                    </button>
+            <div class="payment-section">
+                <h3><i class="fas fa-credit-card"></i> Payment</h3>
+                <div class="payment-input-group">
+                    <label for="payment-amount">Cash Received:</label>
+                    <div class="payment-input-container">
+                        <span class="currency-symbol">₱</span>
+                        <input type="text" id="payment-amount" placeholder="0.00" readonly>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+            <div class="change-display" id="change-display">
+                <span>Change:</span>
+                <span id="change-amount">₱ 0.00</span>
+            </div>
+            <div class="quick-amounts">
+                <button class="quick-amount-btn cancel-quick-btn" id="quick-cancel">
+                    <i class="fas fa-times"></i>
+                    <span>Cancel</span>
+                </button>
+                <button class="quick-amount-btn print-quick-btn" id="quick-print">
+                    <i class="fas fa-print"></i>
+                    <span>Print Receipt</span>
+                </button>
+            </div>
+        </aside>
     </main>
 
     <!-- Receipt Modal -->
