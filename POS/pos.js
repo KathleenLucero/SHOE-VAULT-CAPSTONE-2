@@ -12,6 +12,7 @@ function showTab(tab) {
     // Main content switching
     document.getElementById('tab-pos').style.display = tab === 'pos' ? '' : 'none';
     document.getElementById('tab-reservation').style.display = tab === 'reservation' ? '' : 'none';
+    document.getElementById('tab-sales-history').style.display = tab === 'sales-history' ? '' : 'none';
 
     // Cart sidebar visibility
     var cartSidebar = document.getElementById('cart-sidebar');
@@ -23,7 +24,7 @@ function showTab(tab) {
     var header = document.querySelector('.header');
     var headerRight = document.querySelector('.header-right');
     if (header) {
-        if (tab === 'reservation') {
+        if (tab === 'reservation' || tab === 'sales-history') {
             header.style.marginRight = '0';
             if (headerRight) {
                 headerRight.style.justifyContent = 'flex-end';
@@ -43,7 +44,9 @@ function showTab(tab) {
     // Header title change
     var headerTitle = document.querySelector('.main-title');
     if (headerTitle) {
-        headerTitle.textContent = tab === 'reservation' ? 'Upcoming Reservations' : 'Point of Sale';
+        if (tab === 'reservation') headerTitle.textContent = 'Upcoming Reservations';
+        else if (tab === 'sales-history') headerTitle.textContent = 'Sales History';
+        else headerTitle.textContent = 'Point of Sale';
     }
 
     // Reservation tab full width
@@ -1244,6 +1247,8 @@ window.closeReceipt = closeReceipt;
 window.printReceipt = printReceipt;
 window.showNotification = showNotification;
 window.logout = logout;
+window.renderSalesHistoryTable = renderSalesHistoryTable;
+window.renderSalesHistoryCards = renderSalesHistoryCards;
 
 // ===== MODAL FUNCTIONS =====
 function openProductModal(productId) {
@@ -1390,4 +1395,200 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // Initial render
     renderReservationTable();
+});
+
+// ===== SALES HISTORY TAB RENDERING =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Sales History Tab logic
+    const salesSearchInput = document.getElementById('sales-history-search');
+    const salesClearSearch = document.getElementById('clear-sales-history-search');
+    const salesTimeTabs = document.querySelectorAll('.sales-history-time-tab');
+    const salesPriceTabs = document.querySelectorAll('.sales-history-price-tab');
+    // Search
+    if (salesSearchInput) {
+        salesSearchInput.addEventListener('input', function() {
+            salesSearchQuery = this.value.trim().toLowerCase();
+            renderSalesHistoryTable();
+        });
+    }
+    if (salesClearSearch) {
+        salesClearSearch.addEventListener('click', function() {
+            salesSearchInput.value = '';
+            salesSearchQuery = '';
+            renderSalesHistoryTable();
+        });
+    }
+    // Time category tabs
+    salesTimeTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            salesTimeTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            salesTimeFilter = this.getAttribute('data-time') || 'all';
+            renderSalesHistoryTable();
+        });
+    });
+    // Price range tabs
+    salesPriceTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            salesPriceTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            salesPriceFilter = this.getAttribute('data-price') || 'all';
+            renderSalesHistoryTable();
+        });
+    });
+    // Initial render
+    renderSalesHistoryTable();
+});
+
+// ===== SALES HISTORY TAB INTERACTIVITY =====
+const salesHistoryData = [
+    {
+        customerId: 'C-2001',
+        products: 'Nike Air Max 270, Adidas Ultraboost 22',
+        quantity: 2,
+        totalPrice: 21498,
+        cashReceived: 22000,
+        change: 502,
+        time: '08:15 AM'
+    },
+    {
+        customerId: 'C-2002',
+        products: 'Puma RS-X',
+        quantity: 1,
+        totalPrice: 6499,
+        cashReceived: 7000,
+        change: 501,
+        time: '10:30 AM'
+    },
+    {
+        customerId: 'C-2003',
+        products: 'Converse Chuck Taylor, Vans Old Skool',
+        quantity: 2,
+        totalPrice: 8498,
+        cashReceived: 9000,
+        change: 502,
+        time: '02:45 PM'
+    },
+    {
+        customerId: 'C-2004',
+        products: 'Nike Air Force 1',
+        quantity: 1,
+        totalPrice: 6999,
+        cashReceived: 7000,
+        change: 1,
+        time: '05:10 PM'
+    },
+    {
+        customerId: 'C-2005',
+        products: 'Adidas Stan Smith',
+        quantity: 1,
+        totalPrice: 5499,
+        cashReceived: 6000,
+        change: 501,
+        time: '06:05 PM'
+    }
+];
+let salesTimeFilter = 'all';
+let salesPriceFilter = 'all';
+let salesSearchQuery = '';
+
+function renderSalesHistoryTable() {
+    const tbody = document.getElementById('sales-history-table-body');
+    tbody.innerHTML = '';
+    salesHistoryData.forEach(sale => {
+        // Filter by time category
+        let timeMatch = false;
+        if (salesTimeFilter === 'all') timeMatch = true;
+        else if (salesTimeFilter === 'morning') timeMatch = /^(0?[7-9]|10|11):\d{2} (AM)$/i.test(sale.time);
+        else if (salesTimeFilter === 'afternoon') timeMatch = /^(12|0?1|0?2|0?3|0?4|0?5|0?6):\d{2} (PM)$/i.test(sale.time);
+        // Filter by price range
+        let priceMatch = false;
+        if (salesPriceFilter === 'all') priceMatch = true;
+        else if (salesPriceFilter === 'low') priceMatch = sale.totalPrice >= 0 && sale.totalPrice <= 3000;
+        else if (salesPriceFilter === 'mid') priceMatch = sale.totalPrice > 3000 && sale.totalPrice <= 20000;
+        else if (salesPriceFilter === 'high') priceMatch = sale.totalPrice > 20000;
+        // Filter by search
+        let searchMatch = salesSearchQuery === '' || sale.customerId.toLowerCase().includes(salesSearchQuery) || sale.products.toLowerCase().includes(salesSearchQuery);
+        if (timeMatch && priceMatch && searchMatch) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${sale.customerId}</td>
+                <td>${sale.products}</td>
+                <td>${sale.quantity}</td>
+                <td>₱ ${sale.totalPrice.toLocaleString()}</td>
+                <td>₱ ${sale.cashReceived.toLocaleString()}</td>
+                <td>₱ ${sale.change.toLocaleString()}</td>
+                <td>${sale.time}</td>
+            `;
+            tbody.appendChild(tr);
+        }
+    });
+}
+
+function renderSalesHistoryCards() {
+    // Calculate number of products sold
+    let productsSold = salesHistoryData.reduce((sum, row) => sum + row.quantity, 0);
+    // Calculate total sales
+    let totalSales = salesHistoryData.reduce((sum, row) => sum + row.totalPrice, 0);
+    // Calculate number of transactions
+    let transactions = salesHistoryData.length;
+    document.getElementById('card-products-sold').textContent = productsSold;
+    document.getElementById('card-total-sales').textContent = '₱ ' + totalSales.toLocaleString();
+    document.getElementById('card-transactions').textContent = transactions;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Sales history tab: time filter
+    document.querySelectorAll('.sales-time-filter button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.sales-time-filter button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            salesTimeFilter = this.getAttribute('data-time');
+            renderSalesHistoryTable();
+        });
+    });
+    // Sales history tab: price filter
+    document.querySelectorAll('.sales-price-filter button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.sales-price-filter button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            salesPriceFilter = this.getAttribute('data-price');
+            renderSalesHistoryTable();
+        });
+    });
+    // Sales history tab: search
+    const searchInput = document.getElementById('sales-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            salesSearchQuery = searchInput.value.toLowerCase();
+            renderSalesHistoryTable();
+        });
+    }
+    // Sales history tab: clear search
+    const clearBtn = document.getElementById('clear-sales-search');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            salesSearchQuery = '';
+            if (searchInput) searchInput.value = '';
+            renderSalesHistoryTable();
+        });
+    }
+    // Dropdown event listeners for Sales History tab
+    const timeDropdown = document.getElementById('sales-history-time-dropdown');
+    const priceDropdown = document.getElementById('sales-history-price-dropdown');
+    if (timeDropdown) {
+        timeDropdown.addEventListener('change', function() {
+            salesTimeFilter = this.value;
+            renderSalesHistoryTable();
+        });
+    }
+    if (priceDropdown) {
+        priceDropdown.addEventListener('change', function() {
+            salesPriceFilter = this.value;
+            renderSalesHistoryTable();
+        });
+    }
+    // Initial render
+    renderSalesHistoryTable();
+    renderSalesHistoryCards();
 });

@@ -32,16 +32,10 @@
                     <span>Reservations</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-boxes"></i>
-                    <span>Inventory</span>
-                </a>
-            </li>
-            <li class="nav-item">
+            <li class="nav-item" onclick="showTab('sales-history')">
                 <a href="#" class="nav-link">
                     <i class="fas fa-chart-line"></i>
-                    <span>Reports</span>
+                    <span>Sales History</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -223,6 +217,76 @@
                 </div>
             </section>
         </div>
+
+        <!-- Sales History Tab -->
+        <div class="main-content-wrapper reservation-full" id="tab-sales-history" style="display:none;">
+            <section class="reservation-section">
+                <!-- Top Cards -->
+                <div class="reservation-cards sales-history-cards">
+                    <div class="reservation-card products-sold-card">
+                        <div class="card-title">Number of Products Sold</div>
+                        <div class="card-value" id="card-products-sold">0</div>
+                    </div>
+                    <div class="reservation-card transactions-card">
+                        <div class="card-title">Number of Transactions</div>
+                        <div class="card-value" id="card-transactions">0</div>
+                    </div>
+                    <div class="reservation-card total-sales-card">
+                        <div class="card-title">Total Sales</div>
+                        <div class="card-value" id="card-total-sales">₱ 0</div>
+                    </div>
+                </div>
+                <!-- Search and Category Dropdowns -->
+                <div class="reservation-filter sales-history-filter">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="sales-history-search" placeholder="Search by CustomerID or Product...">
+                            <button class="clear-search" id="clear-sales-history-search"></button>
+                        </div>
+                    </div>
+                    <div class="sales-history-dropdowns">
+                        <div class="dropdown-group">
+                            <label for="sales-history-time-dropdown">Transaction Time:</label>
+                            <select id="sales-history-time-dropdown">
+                                <option value="all">All Times</option>
+                                <option value="morning">Morning (7:00am - 11:59am)</option>
+                                <option value="afternoon">Afternoon (12:00pm - 6:00pm)</option>
+                            </select>
+                        </div>
+                        <div class="dropdown-group">
+                            <label for="sales-history-price-dropdown">Price Range:</label>
+                            <select id="sales-history-price-dropdown">
+                                <option value="all">All Prices</option>
+                                <option value="low">₱0 - ₱3,000</option>
+                                <option value="mid">₱3,001 - ₱20,000</option>
+                                <option value="high">₱20,001+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sales History Table -->
+                <div class="reservation-table-wrapper">
+                    <table class="reservation-table">
+                        <thead>
+                            <tr>
+                                <th>CustomerID</th>
+                                <th>List of Products</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Cash Received</th>
+                                <th>Change</th>
+                                <th>Time of Transaction</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-history-table-body">
+                            <!-- Sales history rows will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
         <!-- Cart Sidebar -->
         <aside class="cart-sidebar" id="cart-sidebar">
             <div class="cart-header">
