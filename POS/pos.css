@@ -1,4 +1,140 @@
 /* ===== PRODUCT MODAL STYLES ===== */
+/* ===== RESERVATION TAB STYLES ===== */
+.reservation-full {
+    width: calc(100vw - var(--sidebar-width));
+    max-width: 100vw;
+}
+.reservation-full .reservation-section {
+    margin: 20px auto;
+    width: 98vw;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.reservation-full .reservation-cards {
+    width: 100%;
+    justify-content: center;
+}
+.reservation-full .reservation-table-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.reservation-full .reservation-filter {
+    width: 100%;
+    justify-content: center;
+}
+.reservation-section {
+    padding: 24px 32px;
+    background: var(--bg-card);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    margin: 20px;
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.reservation-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+.reservation-card {
+    background: linear-gradient(135deg, #1e3a8a 0%, #a3bffa 100%);
+    color: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 110px;
+    justify-content: center;
+}
+.reservation-card.expiring-soon {
+    background: linear-gradient(135deg, #2a6aff 0%, #4a5568 100%);
+}
+.reservation-card.expiring-today {
+    background: linear-gradient(135deg, #1e3a8a 0%, #a3bffa 100%);
+}
+.reservation-card.total-reservations {
+    background: linear-gradient(135deg, #4a5568 0%, #2a6aff 100%);
+}
+.reservation-card .card-title {
+    font-size: 1.1rem;
+    font-family: var(--font-secondary);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.reservation-card .card-value {
+    font-size: 2.1rem;
+    font-family: var(--font-primary);
+    font-weight: 700;
+}
+.reservation-filter {
+    display: flex;
+    align-items: center;
+    gap: 52px;
+    margin-bottom: 24px;
+}
+.reservation-tabs {
+    display: flex;
+    gap: 32px;
+}
+.reservation-tab {
+    background: var(--gray-200);
+    color: var(--primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+.reservation-tab.active {
+    background: linear-gradient(135deg, #2a6aff 0%, #1e3a8a 100%);
+    color: var(--white);
+}
+.reservation-table-wrapper {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    padding: 18px;
+    margin-top: 12px;
+    overflow-x: auto;
+}
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-primary);
+    font-size: 0.92rem;
+    background: var(--bg-card);
+}
+.reservation-table th, .reservation-table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid var(--gray-200);
+    text-align: center;
+    word-break: break-word;
+}
+.reservation-table th {
+    background: var(--gray-100);
+    color: var(--primary);
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+.reservation-table tr:last-child td {
+    border-bottom: none;
+}
+.reservation-table td {
+    color: var(--gray-700);
+    font-size: 0.91rem;
+}
 .product-modal-card {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -120,7 +256,7 @@
     padding: 0 18px;
     border-radius: var(--radius-lg);
     font-family: var(--font-primary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -149,6 +285,7 @@
 .modal-action-btn.add-to-cart-btn {
     background: linear-gradient(to top right, #112c70 0%, #2a6aff 100%);
     color: var(--white);
+    font-size: 1rem;
 }
 .modal-action-btn.add-to-cart-btn:hover {
     background: #32519a;
@@ -474,11 +611,10 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--spacing-2xl);
-    box-shadow: var(--shadow-sm);
-    border-bottom: 1px solid var(--gray-200);
     position: sticky;
     top: 0;
     z-index: 100;
+    margin-top: 20px;
 }
 
 .header-left .main-title {
@@ -507,7 +643,8 @@ body {
     gap: var(--spacing-md);
     max-width: 600px;
     min-width: 320px;
-    margin-left: 50px;
+    margin-left: 100px;
+    font-family: var(--font-secondary);
 }
 
 .time-display,
@@ -671,6 +808,7 @@ body {
     border-radius: var(--radius-xl);
     padding: var(--spacing-sm) var(--spacing-lg);
     transition: all var(--transition-normal);
+    width: 500px;
 }
 
 .search-box:focus-within {

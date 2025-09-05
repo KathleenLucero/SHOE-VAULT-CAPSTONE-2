@@ -1,4 +1,63 @@
 // ===== POS SYSTEM JAVASCRIPT =====
+// ===== TAB SWITCHING =====
+function showTab(tab) {
+    // Sidebar nav highlight
+    document.querySelector('.nav-pos').classList.remove('active');
+    document.querySelector('.nav-reservation').classList.remove('active');
+    if (tab === 'pos') {
+        document.querySelector('.nav-pos').classList.add('active');
+    } else {
+        document.querySelector('.nav-reservation').classList.add('active');
+    }
+    // Main content switching
+    document.getElementById('tab-pos').style.display = tab === 'pos' ? '' : 'none';
+    document.getElementById('tab-reservation').style.display = tab === 'reservation' ? '' : 'none';
+
+    // Cart sidebar visibility
+    var cartSidebar = document.getElementById('cart-sidebar');
+    if (cartSidebar) {
+        cartSidebar.style.display = tab === 'pos' ? '' : 'none';
+    }
+
+    // Header layout adjustment
+    var header = document.querySelector('.header');
+    var headerRight = document.querySelector('.header-right');
+    if (header) {
+        if (tab === 'reservation') {
+            header.style.marginRight = '0';
+            if (headerRight) {
+                headerRight.style.justifyContent = 'flex-end';
+                headerRight.style.marginLeft = 'auto';
+                headerRight.style.marginRight = '32px';
+            }
+        } else {
+            header.style.marginRight = '440px';
+            if (headerRight) {
+                headerRight.style.justifyContent = '';
+                headerRight.style.marginLeft = '50px';
+                headerRight.style.marginRight = '';
+            }
+        }
+    }
+
+    // Header title change
+    var headerTitle = document.querySelector('.main-title');
+    if (headerTitle) {
+        headerTitle.textContent = tab === 'reservation' ? 'Upcoming Reservations' : 'Point of Sale';
+    }
+
+    // Reservation tab full width
+    var reservationWrapper = document.getElementById('tab-reservation');
+    if (reservationWrapper) {
+        if (tab === 'reservation') {
+            reservationWrapper.classList.add('reservation-full');
+        } else {
+            reservationWrapper.classList.remove('reservation-full');
+        }
+    }
+}
+
+window.showTab = showTab;
 
 // ===== SESSION MANAGEMENT =====
 function checkSession() {
@@ -1256,3 +1315,79 @@ function addToCartWithSize(productId, size) {
     renderProducts();
     showNotification(`${product.name} (Size ${size}) added to cart`, 'success');
 }
+
+// ===== RESERVATION TAB INTERACTIVITY =====
+const reservationData = [
+    // Placeholder for PHP integration: Replace with PHP-generated data
+    {
+        id: 'R-1001', name: 'John Doe', email: 'john@example.com', phone: '09171234567', products: 'Nike Air Max 270, Adidas Ultraboost 22', dateReserved: '2025-09-01', pickupDate: '2025-09-06', status: 'Pending', days: '1 day left'
+    },
+    {
+        id: 'R-1002', name: 'Jane Smith', email: 'jane@example.com', phone: '09181234567', products: 'Puma RS-X', dateReserved: '2025-09-02', pickupDate: '2025-09-05', status: 'Completed', days: 'Picked up'
+    },
+    {
+        id: 'R-1003', name: 'Mark Lee', email: 'mark@example.com', phone: '09191234567', products: 'Converse Chuck Taylor', dateReserved: '2025-08-28', pickupDate: '2025-09-03', status: 'Cancelled', days: '2 days since cancelled'
+    }
+];
+let reservationStatusFilter = 'all';
+let reservationSearchQuery = '';
+
+function renderReservationTable() {
+    // Placeholder for PHP: Use PHP to filter and output rows
+    let filtered = reservationData.filter(row => {
+        const statusMatch = reservationStatusFilter === 'all' || row.status.toLowerCase() === reservationStatusFilter;
+        const searchMatch = reservationSearchQuery.trim() === '' || (
+            row.id.toLowerCase().includes(reservationSearchQuery) ||
+            row.name.toLowerCase().includes(reservationSearchQuery) ||
+            row.email.toLowerCase().includes(reservationSearchQuery) ||
+            row.phone.toLowerCase().includes(reservationSearchQuery) ||
+            row.products.toLowerCase().includes(reservationSearchQuery)
+        );
+        return statusMatch && searchMatch;
+    });
+    const tbody = document.getElementById('reservation-table-body');
+    tbody.innerHTML = filtered.map(row => `
+        <tr>
+            <td>${row.id}</td>
+            <td>${row.name}</td>
+            <td>${row.email}</td>
+            <td>${row.phone}</td>
+            <td>${row.products}</td>
+            <td>${row.dateReserved}</td>
+            <td>${row.pickupDate}</td>
+            <td>${row.status}</td>
+            <td>${row.days}</td>
+        </tr>
+    `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Reservation tab: category filter
+    document.querySelectorAll('.reservation-tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.reservation-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            reservationStatusFilter = btn.getAttribute('data-status').toLowerCase();
+            renderReservationTable();
+        });
+    });
+    // Reservation tab: search
+    const searchInput = document.getElementById('reservation-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            reservationSearchQuery = searchInput.value.toLowerCase();
+            renderReservationTable();
+        });
+    }
+    // Reservation tab: clear search
+    const clearBtn = document.getElementById('clear-reservation-search');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            reservationSearchQuery = '';
+            if (searchInput) searchInput.value = '';
+            renderReservationTable();
+        });
+    }
+    // Initial render
+    renderReservationTable();
+});
