@@ -798,7 +798,7 @@ function clearCart() {
 }
 
 // ===== PAYMENT PROCESSING =====
-function handleNumberPad(number) {
+function handleNumberPad(number) { 
     if (number === '.') {
         if (!currentState.paymentAmount.includes('.')) {
             currentState.paymentAmount += number;

@@ -11,11 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     loadSampleData();
     renderInventoryTable();
-    updateDashboard();
     updateTimeAndDate();
     setInterval(updateTimeAndDate, 1000);
     renderCharts();
     renderActivityList();
+    // Set POS Inventory as landing page
+    navigateToSection('pos-inventory');
 });
 
 // Update time and date display
@@ -58,9 +59,278 @@ function initializeApp() {
         reservationDateInput.min = today;
     }
 }
+window.openProductDetailsModal = function(productName) {
 
-// Setup event listeners
+    // Mock data for demo
+    const products = {
+        'Nike Air Max 270': {
+            name: 'Nike Air Max 270',
+            brand: 'Nike',
+            category: 'Men',
+            price: '₱8,499',
+            stock: 12,
+            sizes: '7, 8, 9, 10',
+            colors: 'Black, White',
+            image: ''
+        },
+        'Adidas Ultraboost 22': {
+            name: 'Adidas Ultraboost 22',
+            brand: 'Adidas',
+            category: 'Men',
+            price: '₱12,999',
+            stock: 8,
+            sizes: '8, 9, 10, 11',
+            colors: 'Blue, White',
+            image: ''
+        },
+        'Converse Chuck Taylor': {
+            name: 'Converse Chuck Taylor',
+            brand: 'Converse',
+            category: 'Accessories',
+            price: '₱3,999',
+            stock: 20,
+            sizes: '6, 7, 8, 9',
+            colors: 'Red, Black',
+            image: ''
+        }
+    };
+    const details = products[productName];
+    if (!details) return;
+    const modal = document.getElementById('product-details-modal');
+    const overlay = document.getElementById('modal-overlay');
+    const content = document.getElementById('product-details-content');
+    const sizeTags = details.sizes.split(',').map(s => `<span style='background:#2563eb;color:#fff;padding:6px 16px;border-radius:8px;font-size:1rem;margin:4px 4px 0 0;display:inline-block;font-weight:600;'>${s.trim()}</span>`).join(' ');
+    const colorTags = details.colors.split(',').map(c => `<span style='background:#4a5568;color:#fff;padding:6px 16px;border-radius:8px;font-size:1rem;margin:4px 4px 0 0;display:inline-block;font-weight:600;'>${c.trim()}</span>`).join(' ');
+    content.innerHTML = `
+        <div style="flex:0 0 260px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <div style="width:260px;height:260px;background:#e2e8f0;border-radius:14px;display:flex;align-items:center;justify-content:center;">
+                <i class='fas fa-image' style='font-size:5rem;color:#a0aec0;'></i>
+            </div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;min-width:320px;">
+            <div style="font-weight:700;font-size:1.35rem;">${details.name}</div>
+            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Brand: <span style="font-weight:600;color:#2563eb;">${details.brand}</span></div>
+            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Category: <span style="font-weight:600;color:#2563eb;">${details.category}</span></div>
+            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Price: <span style="font-weight:600;color:#059669;">${details.price}</span></div>
+            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Stock: <span style="font-weight:600;color:#2563eb;">${details.stock}</span></div>
+            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Sizes: <span>${sizeTags}</span></div>
+            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Colors: <span>${colorTags}</span></div>
+        </div>
+    `;
+    modal.style.display = 'block';
+    overlay.classList.add('active');
+    overlay.style.display = 'block';
+}
 function setupEventListeners() {
+    // Dropdown section switcher
+    const sectionSwitcher = document.getElementById('section-switcher');
+    if (sectionSwitcher) {
+        sectionSwitcher.addEventListener('change', function() {
+            navigateToSection(this.value);
+        });
+    }
+
+    // Card/List view toggle for add-inventory-list
+    const toggleBtn = document.getElementById('toggle-card-view');
+    const addInventoryList = document.querySelector('.add-inventory-list');
+    if (toggleBtn && addInventoryList) {
+        let isGrid = true;
+        toggleBtn.addEventListener('click', function() {
+            isGrid = !isGrid;
+            if (isGrid) {
+                addInventoryList.style.flexDirection = 'row';
+                addInventoryList.style.flexWrap = 'wrap';
+                    let isGrid = true;
+                    // Helper: get product data from card
+                    function getProductData(card) {
+                        return {
+                            name: card.getAttribute('data-name'),
+                            brand: card.getAttribute('data-brand'),
+                            category: card.getAttribute('data-category'),
+                            price: card.getAttribute('data-price'),
+                            stock: card.getAttribute('data-stock'),
+                            sizes: card.getAttribute('data-sizes'),
+                            colors: card.getAttribute('data-colors'),
+                        };
+                    }
+                    // Helper: render card HTML for grid/horizontal
+                    function renderCard(card, mode) {
+                        // Special handling for add-product-card
+                        if (card.classList.contains('add-product-card')) {
+                            if (mode === 'grid') {
+                                card.innerHTML = `
+                                    <i class="fas fa-plus" style="font-size:2.5rem;color:#2a6aff;"></i>
+                                    <span style="margin-top:12px;font-size:1.1rem;color:#2a6aff;font-weight:600;">Add Product</span>
+                                `;
+                                card.style.minWidth = '240px';
+                                card.style.maxWidth = '240px';
+                                card.style.height = '280px';
+                                card.style.flexDirection = 'column';
+                                card.style.alignItems = 'center';
+                                card.style.justifyContent = 'center';
+                                card.style.border = '2px dashed #a3bffa';
+                                card.style.background = '#f7fafc';
+                                card.style.boxShadow = '0 2px 8px rgba(67,56,202,0.08)';
+                            } else {
+                                card.innerHTML = `
+                                    <div style="width:56px;height:56px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-right:24px;margin-bottom:0;">
+                                        <i class="fas fa-plus" style="font-size:2rem;color:#2a6aff;"></i>
+                                    </div>
+                                    <div class="card-details-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,auto);gap:12px 24px;width:100%;align-items:center;">
+                                        <div style="font-size:1.1rem;color:#2a6aff;font-weight:600;grid-column:1/5;grid-row:1;display:flex;align-items:center;">Add Product</div>
+                                    </div>
+                                `;
+                                card.style.width = '100%';
+                                card.style.minWidth = '100%';
+                                card.style.maxWidth = '100%';
+                                card.style.height = '120px';
+                                card.style.flexDirection = 'row';
+                                card.style.alignItems = 'center';
+                                card.style.justifyContent = 'flex-start';
+                                card.style.border = '2px dashed #a3bffa';
+                                card.style.background = '#f7fafc';
+                                card.style.boxShadow = '0 2px 8px rgba(67,56,202,0.08)';
+                                card.style.padding = '18px 32px';
+                            }
+                            card.style.cursor = 'pointer';
+                            card.onclick = openAddProductModal;
+                            return;
+                        }
+                        const data = getProductData(card);
+                        if (mode === 'grid') {
+                            card.innerHTML = `
+                                <div style="width:128px;height:128px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+                                    <i class="fas fa-image" style="font-size:4rem;color:#a0aec0;"></i>
+                                </div>
+                                <div style="font-weight:700;font-size:1.1rem;text-align:center;">${data.name}</div>
+                                <div style="font-size:0.95rem;color:#4a5568;text-align:center;margin-top:4px;">Size: ${data.sizes}</div>
+                                <div style="font-size:0.95rem;color:#4a5568;text-align:center;">Color: ${data.colors}</div>
+                                <div style="font-size:0.95rem;color:#2a6aff;text-align:center;margin-top:4px;">Stock: ${data.stock}</div>
+                                <button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:1rem;margin-top:16px;padding:0;" onclick="openUpdateProductModal('${data.name}')">Update</button>
+                            `;
+                            card.style.minWidth = '240px';
+                            card.style.maxWidth = '240px';
+                            card.style.height = '280px';
+                            card.style.flexDirection = 'column';
+                            card.style.alignItems = 'center';
+                            card.style.justifyContent = 'center';
+                            card.style.padding = '18px';
+                        } else {
+                            card.innerHTML = `
+                                <div style="width:56px;height:56px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-right:24px;margin-bottom:0;">
+                                    <i class="fas fa-image" style="font-size:2rem;color:#a0aec0;"></i>
+                                </div>
+                                <div class="card-details-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,auto);gap:12px 24px;width:100%;align-items:center;">
+                                    <div><span style="font-weight:600;">Name:</span> ${data.name}</div>
+                                    <div><span style="font-weight:600;">Brand:</span> ${data.brand}</div>
+                                    <div><span style="font-weight:600;">Category:</span> ${data.category}</div>
+                                    <div><span style="font-weight:600;">Price:</span> ${data.price}</div>
+                                    <div><span style="font-weight:600;">Stock:</span> ${data.stock}</div>
+                                    <div><span style="font-weight:600;">Sizes:</span> <span style="background:#2563eb;color:#fff;padding:4px 12px;border-radius:8px;font-size:1rem;">${data.sizes}</span></div>
+                                    <div><span style="font-weight:600;">Colors:</span> <span style="background:#4a5568;color:#fff;padding:4px 12px;border-radius:8px;font-size:1rem;">${data.colors}</span></div>
+                                    <div style="display:flex;justify-content:center;align-items:center;"><button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:1rem;padding:0;" onclick="openUpdateProductModal('${data.name}')">Update</button></div>
+                                </div>
+                            `;
+                            card.style.minWidth = '100%';
+                            card.style.maxWidth = '100%';
+                            card.style.height = 'auto';
+                            card.style.flexDirection = 'row';
+                            card.style.alignItems = 'center';
+                            card.style.justifyContent = 'flex-start';
+                            card.style.padding = '18px 32px';
+                            card.style.background = '#fff';
+                            card.style.boxShadow = '0 2px 8px rgba(67,56,202,0.08)';
+                        }
+                    }
+                    // On toggle, re-render all product cards
+                    toggleBtn.addEventListener('click', function() {
+                        isGrid = !isGrid;
+                        if (isGrid) {
+                            addInventoryList.style.flexDirection = 'row';
+                            addInventoryList.style.flexWrap = 'wrap';
+                            addInventoryList.style.alignItems = 'flex-start';
+                            addInventoryList.style.gap = '24px';
+                            toggleBtn.innerHTML = '<i class="fas fa-th-large" id="toggle-card-icon"></i>';
+                        } else {
+                            addInventoryList.style.flexDirection = 'column';
+                            addInventoryList.style.flexWrap = 'nowrap';
+                            addInventoryList.style.alignItems = 'stretch';
+                            addInventoryList.style.gap = '18px';
+                            toggleBtn.innerHTML = '<i class="fas fa-bars" id="toggle-card-icon"></i>';
+                        }
+                        addInventoryList.querySelectorAll('.product-card, .add-product-card').forEach(function(card) {
+                            renderCard(card, isGrid ? 'grid' : 'horizontal');
+                        });
+                    });
+                }
+        if (sizeTags) {
+            sizeInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    const tag = document.createElement('span');
+                    tag.textContent = this.value.trim();
+                    tag.className = 'tag-item';
+                    tag.style = 'background:#2a6aff;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-right:4px;cursor:pointer;';
+                    tag.onclick = function() { sizeTags.removeChild(tag); };
+                    sizeTags.appendChild(tag);
+                    this.value = '';
+                }
+            });
+            if (enterBtn) {
+                enterBtn.addEventListener('click', function() {
+                    if (sizeInput.value.trim()) {
+                        const tag = document.createElement('span');
+                        tag.textContent = sizeInput.value.trim();
+                        tag.className = 'tag-item';
+                        tag.style = 'background:#2a6aff;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-right:4px;cursor:pointer;';
+                        tag.onclick = function() { sizeTags.removeChild(tag); };
+                        sizeTags.appendChild(tag);
+                        sizeInput.value = '';
+                    }
+                });
+            }
+        }
+    });
+    document.querySelectorAll('#product-color-input').forEach(function(colorInput) {
+        const colorTags = colorInput.parentElement.parentElement.querySelector('#product-color-tags');
+        const enterBtn = colorInput.parentElement.querySelector('#product-color-enter');
+        if (colorTags) {
+            colorInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    const tag = document.createElement('span');
+                    tag.textContent = this.value.trim();
+                    tag.className = 'tag-item';
+                    tag.style = 'background:#4a5568;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-right:4px;cursor:pointer;';
+                    tag.onclick = function() { colorTags.removeChild(tag); };
+                    colorTags.appendChild(tag);
+                    this.value = '';
+                }
+            });
+            if (enterBtn) {
+                enterBtn.addEventListener('click', function() {
+                    if (colorInput.value.trim()) {
+                        const tag = document.createElement('span');
+                        tag.textContent = colorInput.value.trim();
+                        tag.className = 'tag-item';
+                        tag.style = 'background:#4a5568;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-right:4px;cursor:pointer;';
+                        tag.onclick = function() { colorTags.removeChild(tag); };
+                        colorTags.appendChild(tag);
+                        colorInput.value = '';
+                    }
+                });
+            }
+        }
+    });
+    // Collect tags for saving (example for Add to Inventory button)
+    const addBtn = document.getElementById('add-to-inventory-btn');
+    if (addBtn) {
+        addBtn.onclick = function() {
+            const sizes = Array.from(sizeTags.children).map(tag => tag.textContent);
+            const colors = Array.from(colorTags.children).map(tag => tag.textContent);
+            // ...collect other fields and save as needed...
+            alert('Sizes: ' + sizes.join(', ') + '\nColors: ' + colors.join(', '));
+        };
+    }
+}
     // Navigation
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -117,37 +387,12 @@ function setupEventListeners() {
         });
     }
 
-    // Quick links on dashboard
-    document.querySelectorAll('.quick-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = this.getAttribute('data-go');
-            if (target) {
-                navigateToSection(target);
-            }
-        });
-    });
-
-    // Dashboard scope filter
-    const scopeSelect = document.getElementById('dashboard-scope');
-    if (scopeSelect) {
-        scopeSelect.addEventListener('change', function() {
-            updateDashboard();
-            renderCharts();
-            updateDashAddButton();
-        });
-        // initialize state
-        updateDashAddButton();
-    }
+    // ...existing code...
 
 }
 
 // Navigation function
 function navigateToSection(section) {
-    // Normalize parent inventory to dashboard
-    if (section === 'inventory') {
-        section = 'inventory-dashboard';
-    }
     // Update active nav item
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
@@ -157,8 +402,6 @@ function navigateToSection(section) {
     // Update page title
     const pageTitle = document.getElementById('page-title');
     const titles = {
-        'inventory': 'Inventory Dashboard',
-        'inventory-dashboard': 'Inventory Dashboard',
         'inventory-list': 'Inventory - Inventory List',
         'pos-inventory': 'POS',
         'reservation-inventory': 'Reservation Inventory',
@@ -182,11 +425,6 @@ function navigateToSection(section) {
     switch (section) {
         case 'inventory-list':
             renderInventoryTable();
-            break;
-        case 'inventory-dashboard':
-            updateDashboard();
-            renderCharts();
-            renderActivityList();
             break;
         case 'pos-inventory':
             renderPOSProducts();
@@ -320,24 +558,7 @@ function setupSettings() {
     }
 }
 
-// Dashboard KPIs
-function updateDashboard() {
-    // Bind KPIs to scoped dataset while keeping the same card labels
-    const data = getScopedDataset();
-    const totalStock = data.reduce((sum, i) => sum + (i.quantity || 0), 0);
-    const totalValue = data.reduce((sum, i) => sum + ((i.quantity || 0) * (i.price || 0)), 0);
-    const avgPrice = data.length ? (data.reduce((s, i) => s + (i.price || 0), 0) / data.length) : 0;
-    const brandCount = new Set(data.map(i => (i.brand || ''))).size;
-
-    const kpiSales = document.getElementById('kpi-sales');
-    const kpiRevenue = document.getElementById('kpi-revenue');
-    const kpiAvg = document.getElementById('kpi-avg');
-    const kpiOps = document.getElementById('kpi-ops');
-    if (kpiSales) kpiSales.textContent = totalStock.toString();
-    if (kpiRevenue) kpiRevenue.textContent = `₱${totalValue.toFixed(2)}`;
-    if (kpiAvg) kpiAvg.textContent = `₱${avgPrice.toFixed(2)}`;
-    if (kpiOps) kpiOps.textContent = brandCount.toString();
-}
+// Dashboard logic removed
 
 // Charts (gradient blue)
 let marketChart, donutChart, areaChart;
