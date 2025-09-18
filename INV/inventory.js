@@ -99,22 +99,22 @@ window.openProductDetailsModal = function(productName) {
     const modal = document.getElementById('product-details-modal');
     const overlay = document.getElementById('modal-overlay');
     const content = document.getElementById('product-details-content');
-    const sizeTags = details.sizes.split(',').map(s => `<span style='background:#2563eb;color:#fff;padding:6px 16px;border-radius:8px;font-size:1rem;margin:4px 4px 0 0;display:inline-block;font-weight:600;'>${s.trim()}</span>`).join(' ');
-    const colorTags = details.colors.split(',').map(c => `<span style='background:#4a5568;color:#fff;padding:6px 16px;border-radius:8px;font-size:1rem;margin:4px 4px 0 0;display:inline-block;font-weight:600;'>${c.trim()}</span>`).join(' ');
+    const sizeTags = details.sizes.split(',').map(s => `<span style='background:#2563eb;color:#fff;padding:6px 16px;border-radius:8px;font-size:0.8rem;margin:4px 4px 0 0;display:inline-block;font-weight:600;'>${s.trim()}</span>`).join(' ');
+    const colorTags = details.colors.split(',').map(c => `<span style='background:#4a5568;color:#fff;padding:6px 16px;border-radius:8px;font-size:0.8rem;margin:4px 4px 0 0;display:inline-block;font-weight:600;'>${c.trim()}</span>`).join(' ');
     content.innerHTML = `
         <div style="flex:0 0 260px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div style="width:260px;height:260px;background:#e2e8f0;border-radius:14px;display:flex;align-items:center;justify-content:center;">
-                <i class='fas fa-image' style='font-size:5rem;color:#a0aec0;'></i>
+                <i class='fas fa-image' style='font-size:4rem;color:#a0aec0;'></i>
             </div>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;min-width:320px;">
-            <div style="font-weight:700;font-size:1.35rem;">${details.name}</div>
-            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Brand: <span style="font-weight:600;color:#2563eb;">${details.brand}</span></div>
-            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Category: <span style="font-weight:600;color:#2563eb;">${details.category}</span></div>
-            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Price: <span style="font-weight:600;color:#059669;">${details.price}</span></div>
-            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Stock: <span style="font-weight:600;color:#2563eb;">${details.stock}</span></div>
-            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Sizes: <span>${sizeTags}</span></div>
-            <div style="font-size:0.98rem;color:#374151;font-weight:500;">Colors: <span>${colorTags}</span></div>
+            <div style="font-weight:700;font-size:1.08rem;">${details.name}</div>
+            <div style="font-size:1rem;color:#374151;font-weight:500;">Brand: <span style="font-weight:600;color:#2563eb;">${details.brand}</span></div>
+            <div style="font-size:1rem;color:#374151;font-weight:500;">Category: <span style="font-weight:600;color:#2563eb;">${details.category}</span></div>
+            <div style="font-size:1rem;color:#374151;font-weight:500;">Price: <span style="font-weight:600;color:#059669;">${details.price}</span></div>
+            <div style="font-size:1rem;color:#374151;font-weight:500;">Stock: <span style="font-weight:600;color:#2563eb;">${details.stock}</span></div>
+            <div style="font-size:1rem;color:#374151;font-weight:500;">Sizes: <span>${sizeTags}</span></div>
+            <div style="font-size:1rem;color:#374151;font-weight:500;">Colors: <span>${colorTags}</span></div>
         </div>
     `;
     modal.style.display = 'block';
@@ -159,8 +159,8 @@ function setupEventListeners() {
                         if (card.classList.contains('add-product-card')) {
                             if (mode === 'grid') {
                                 card.innerHTML = `
-                                    <i class="fas fa-plus" style="font-size:2.5rem;color:#2a6aff;"></i>
-                                    <span style="margin-top:12px;font-size:1.1rem;color:#2a6aff;font-weight:600;">Add Product</span>
+                                    <i class="fas fa-plus" style="font-size:2rem;color:#2a6aff;"></i>
+                                    <span style="margin-top:12px;font-size:1.2rem;color:#2a6aff;font-weight:600;">Add Product</span>
                                 `;
                                 card.style.minWidth = '240px';
                                 card.style.maxWidth = '240px';
@@ -174,10 +174,10 @@ function setupEventListeners() {
                             } else {
                                 card.innerHTML = `
                                     <div style="width:56px;height:56px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-right:24px;margin-bottom:0;">
-                                        <i class="fas fa-plus" style="font-size:2rem;color:#2a6aff;"></i>
+                                        <i class="fas fa-plus" style="font-size:1.6rem;color:#2a6aff;"></i>
                                     </div>
                                     <div class="card-details-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,auto);gap:12px 24px;width:100%;align-items:center;">
-                                        <div style="font-size:1.1rem;color:#2a6aff;font-weight:600;grid-column:1/5;grid-row:1;display:flex;align-items:center;">Add Product</div>
+                                        <div style="font-size:1.2rem;color:#2a6aff;font-weight:600;grid-column:1/5;grid-row:1;display:flex;align-items:center;">Add Product</div>
                                     </div>
                                 `;
                                 card.style.width = '100%';
@@ -200,13 +200,13 @@ function setupEventListeners() {
                         if (mode === 'grid') {
                             card.innerHTML = `
                                 <div style="width:128px;height:128px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
-                                    <i class="fas fa-image" style="font-size:4rem;color:#a0aec0;"></i>
+                                    <i class="fas fa-image" style="font-size:3.2rem;color:#a0aec0;"></i>
                                 </div>
-                                <div style="font-weight:700;font-size:1.1rem;text-align:center;">${data.name}</div>
-                                <div style="font-size:0.95rem;color:#4a5568;text-align:center;margin-top:4px;">Size: ${data.sizes}</div>
-                                <div style="font-size:0.95rem;color:#4a5568;text-align:center;">Color: ${data.colors}</div>
-                                <div style="font-size:0.95rem;color:#2a6aff;text-align:center;margin-top:4px;">Stock: ${data.stock}</div>
-                                <button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:1rem;margin-top:16px;padding:0;" onclick="openUpdateProductModal('${data.name}')">Update</button>
+                                <div style="font-weight:700;font-size:0.88rem;text-align:center;">${data.name}</div>
+                                <div style="font-size:0.8rem;color:#4a5568;text-align:center;margin-top:4px;">Size: ${data.sizes}</div>
+                                <div style="font-size:0.8rem;color:#4a5568;text-align:center;">Color: ${data.colors}</div>
+                                <div style="font-size:0.8rem;color:#2a6aff;text-align:center;margin-top:4px;">Stock: ${data.stock}</div>
+                                <button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:0.8rem;margin-top:16px;padding:0;" onclick="openUpdateProductModal('${data.name}')">Update</button>
                             `;
                             card.style.minWidth = '240px';
                             card.style.maxWidth = '240px';
@@ -228,8 +228,8 @@ function setupEventListeners() {
                                     <div><span style="font-weight:600;">Stock:</span> ${data.stock}</div>
                                     <div><span style="font-weight:600;">Sizes:</span> <span style="background:#2563eb;color:#fff;padding:4px 12px;border-radius:8px;font-size:1rem;">${data.sizes}</span></div>
                                     <div><span style="font-weight:600;">Colors:</span> <span style="background:#4a5568;color:#fff;padding:4px 12px;border-radius:8px;font-size:1rem;">${data.colors}</span></div>
-                                    <div style="display:flex;justify-content:center;align-items:center;"><button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:1rem;padding:0;" onclick="openUpdateProductModal('${data.name}')">Update</button></div>
                                 </div>
+                                <div style="display:flex;justify-content:center;align-items:center;"><button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:1rem;padding:0;margin:0;" onclick="openUpdateProductModal('${data.name}')">Update</button></div>
                             `;
                             card.style.minWidth = '100%';
                             card.style.maxWidth = '100%';
@@ -269,7 +269,7 @@ function setupEventListeners() {
                     const tag = document.createElement('span');
                     tag.textContent = this.value.trim();
                     tag.className = 'tag-item';
-                    tag.style = 'background:#2a6aff;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-right:4px;cursor:pointer;';
+                    tag.style = 'background:#2a6aff;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-left:10px;cursor:pointer;';
                     tag.onclick = function() { sizeTags.removeChild(tag); };
                     sizeTags.appendChild(tag);
                     this.value = '';
@@ -281,7 +281,7 @@ function setupEventListeners() {
                         const tag = document.createElement('span');
                         tag.textContent = sizeInput.value.trim();
                         tag.className = 'tag-item';
-                        tag.style = 'background:#2a6aff;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-right:4px;cursor:pointer;';
+                        tag.style = 'background:#2a6aff;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.95rem;margin-left:10px;cursor:pointer;';
                         tag.onclick = function() { sizeTags.removeChild(tag); };
                         sizeTags.appendChild(tag);
                         sizeInput.value = '';

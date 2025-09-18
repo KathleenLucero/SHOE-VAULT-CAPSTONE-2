@@ -67,7 +67,7 @@
 }
 
 html {
-    font-size: 15.5px;
+    font-size: 12.4px;
     scroll-behavior: smooth;
 }
 
@@ -230,7 +230,7 @@ body {
 }
 
 .nav-link i {
-    font-size: 1.25rem;
+    font-size: 1rem;
     width: 24px;
     text-align: center;
 }
@@ -256,7 +256,7 @@ body {
 
 .sub-link {
     padding: var(--spacing-sm) var(--spacing-md) !important;
-    font-size: 0.9rem !important;
+    font-size: 0.72rem !important;
     margin-bottom: var(--spacing-xs) !important;
     background: rgba(255, 255, 255, 0.05) !important;
     border-left: 3px solid transparent !important;
@@ -270,7 +270,7 @@ body {
 }
 
 .sub-link i {
-    font-size: 1rem !important;
+    font-size: 0.8rem !important;
     width: 20px !important;
 }
 
@@ -318,7 +318,7 @@ body {
 .user-details span {
     color: rgba(255, 255, 255, 0.7);
     font-family: var(--font-secondary);
-    font-size: 0.85rem;
+    font-size: 0.68rem;
     font-weight: 300;
 }
 
@@ -333,7 +333,7 @@ body {
     border-radius: var(--radius-md);
     transition: all var(--transition-normal);
     font-family: var(--font-primary);
-    font-size: 0.95rem;
+    font-size: 0.76rem;
     font-weight: 300;
     width: 100%;
     background: rgba(255, 255, 255, 0.05);
@@ -378,7 +378,7 @@ body {
 
 .header-left .main-title {
     font-family: var(--font-secondary);
-    font-size: 2.25rem;
+    font-size: 1.8rem;
     font-weight: 300;
     background: linear-gradient(135deg, #1e3a8a 0%, #a3bffa 100%);
     -webkit-background-clip: text;
@@ -390,7 +390,7 @@ body {
 .header-left .subtitle {
     color: var(--gray-500);
     font-family: var(--font-secondary);
-    font-size: 1.05rem;
+    font-size: 0.84rem;
     font-weight: 300;
 }
 
@@ -416,7 +416,7 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    font-size: 1.2rem;
+    font-size: 0.96rem;
 }
 
 
@@ -477,13 +477,13 @@ body {
 
 .stat-label {
     color: var(--gray-500);
-    font-size: 0.95rem;
+    font-size: 0.76rem;
     letter-spacing: 0.2px;
 }
 
 .stat-value {
     font-family: var(--font-secondary);
-    font-size: 1.6rem;
+    font-size: 1.28rem;
     color: var(--gray-800);
 }
 
@@ -524,14 +524,14 @@ body {
 
 .quick-title {
     font-family: var(--font-secondary);
-    font-size: 1.15rem;
+    font-size: 0.92rem;
     color: var(--gray-800);
     margin-bottom: 4px;
 }
 
 .quick-sub {
     color: var(--gray-500);
-    font-size: 0.95rem;
+    font-size: 0.76rem;
 }
 
 
@@ -556,19 +556,19 @@ body {
 
 .filter-sm {
     padding: 8px 10px;
-    font-size: 0.9rem;
+    font-size: 0.72rem;
     border-radius: 10px;
 }
 
 .dash-filter label {
-    font-size: 0.85rem;
+    font-size: 0.68rem;
     color: var(--gray-600);
 }
 
 .btn.btn-sm {
     padding: 8px 12px;
     min-height: 36px;
-    font-size: 0.9rem;
+    font-size: 0.72rem;
     border-radius: 10px;
 }
 
@@ -587,14 +587,14 @@ body {
 }
 
 .kpi-value {
-    font-size: 1.6rem;
+    font-size: 1.28rem;
     color: var(--gray-800);
     font-family: var(--font-secondary);
 }
 
 .kpi-label {
     color: var(--gray-500);
-    font-size: 0.85rem;
+    font-size: 0.68rem;
 }
 
 .kpi-icon {
@@ -624,7 +624,7 @@ body {
 
 .kpi-trend {
     margin-top: 10px;
-    font-size: 0.85rem;
+    font-size: 0.68rem;
 }
 
 .kpi-trend.up {
@@ -785,7 +785,7 @@ body {
 
 .section-header h2 {
     font-family: var(--font-secondary);
-    font-size: 1.5rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--gray-800);
     margin-bottom: var(--spacing-xs);
@@ -951,12 +951,22 @@ body {
 
 .form-group label {
     font-family: var(--font-secondary);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--gray-700);
 }
 
-.form-group input,
+.form-group input{
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 300;
+    transition: all var(--transition-normal);
+    background: var(--white);
+}
+
 .form-group select {
     padding: var(--spacing-md);
     border: 2px solid var(--gray-200);
@@ -1005,7 +1015,7 @@ body {
 }
 
 .section-header h2 {
-    font-size: 24px;
+    font-size: 1.6rem;
     color: #2c3e50;
     font-weight: 600;
 }
