@@ -35,6 +35,12 @@
                     <span>Supplier</span>
                 </a>
             </li>
+            <li class="nav-item" data-section="reservation-reports">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Reservation Reports</span>
+                </a>
+            </li>
             <li class="nav-item" data-section="settings">
                 <a href="#" class="nav-link">
                     <i class="fas fa-cog"></i>
@@ -115,7 +121,7 @@
                     <div class="add-inventory-list" style="position:relative; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; justify-content: flex-start;">
                         
                         <!-- Add Product Card/Button -->
-                        <div class="add-product-card" style="min-width:240px;max-width:240px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed #a3bffa;border-radius:16px;cursor:pointer;background:#f7fafc;box-shadow:0 2px 8px rgba(67,56,202,0.08);" onclick="openAddProductModal()">
+                        <div class="add-product-card" style="min-width:220px;max-width:220px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed #a3bffa;border-radius:16px;cursor:pointer;background:#f7fafc;box-shadow:0 2px 8px rgba(67,56,202,0.08);" onclick="openAddProductModal()">
                             <i class="fas fa-plus" style="font-size:2rem;color:#2a6aff;"></i>
                             <span style="margin-top:12px;font-size:1.2rem;color:#2a6aff;font-weight:600;">Add Product</span>
                         </div>
@@ -128,7 +134,7 @@
                             data-stock="12" 
                             data-sizes="7, 8, 9, 10" 
                             data-colors="Black, White" 
-                            style="min-width:240px;max-width:240px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(67,56,202,0.08);padding:18px;cursor:pointer;" onclick="openProductDetailsModal('Nike Air Max 270')">
+                            style="min-width:220px;max-width:220px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(67,56,202,0.08);padding:18px;cursor:pointer;" onclick="openProductDetailsModal('Nike Air Max 270')">
                             <div style="width:128px;height:128px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
                                 <i class="fas fa-image" style="font-size:3.2rem;color:#a0aec0;"></i>
                             </div>
@@ -146,7 +152,7 @@
                             data-stock="8" 
                             data-sizes="8, 9, 10, 11" 
                             data-colors="Blue, White" 
-                            style="min-width:240px;max-width:240px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(67,56,202,0.08);padding:18px;cursor:pointer;" onclick="openProductDetailsModal('Adidas Ultraboost 22')">
+                            style="min-width:220px;max-width:220px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(67,56,202,0.08);padding:18px;cursor:pointer;" onclick="openProductDetailsModal('Adidas Ultraboost 22')">
                             <div style="width:128px;height:128px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
                                 <i class="fas fa-image" style="font-size:4rem;color:#a0aec0;"></i>
                             </div>
@@ -164,7 +170,7 @@
                             data-stock="20" 
                             data-sizes="6, 7, 8, 9" 
                             data-colors="Red, Black" 
-                            style="min-width:240px;max-width:240px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(67,56,202,0.08);padding:18px;cursor:pointer;" onclick="openProductDetailsModal('Converse Chuck Taylor')">
+                            style="min-width:220px;max-width:220px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(67,56,202,0.08);padding:18px;cursor:pointer;" onclick="openProductDetailsModal('Converse Chuck Taylor')">
                             <div style="width:128px;height:128px;background:#e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
                                 <i class="fas fa-image" style="font-size:4rem;color:#a0aec0;"></i>
                             </div>
@@ -179,174 +185,11 @@
                     </div>
                 </section>
 
-            <!-- Inventory List Section -->
-            <section id="inventory-list" class="content-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-list"></i> Inventory - Inventory List</h2>
-                    <button class="btn btn-primary" onclick="openAddInventoryModal()">
-                        <i class="fas fa-plus"></i> Add New Item
-                    </button>
-                </div>
-                <div class="filters">
-                    <input type="text" id="search-inventory" placeholder="Search inventory..." class="search-input">
-                    <select id="category-filter" class="filter-select">
-                        <option value="">All Categories</option>
-                        <option value="men">Men's Shoes</option>
-                        <option value="women">Women's Shoes</option>
-                        <option value="kids">Kids' Shoes</option>
-                        <option value="accessories">Accessories</option>
-                    </select>
-                </div>
-                <div class="table-container">
-                    <table id="inventory-table" class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Inventory ID</th>
-                                <th>Name</th>
-                                <th>Brand</th>
-                                <th>Category</th>
-                                <th>Size</th>
-                                <th>Stock</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventory-tbody">
-                            <!-- Inventory items will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- POS Inventory Section -->
-            <section id="pos-inventory" class="content-section">
-                <div class="section-header with-left-actions">
-                    <h2><i class="fas fa-cash-register"></i> POS (Inventory)</h2>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <p>Point of Sale inventory management</p>
-                        <button class="btn btn-primary" onclick="openAddInventoryModal()">
-                            <i class="fas fa-plus"></i> Add Inventory
-                        </button>
-                    </div>
-                </div>
-                <div class="pos-container">
-                    <div class="pos-left">
-                        <div class="product-search">
-                            <input type="text" id="pos-search" placeholder="Search products..." class="search-input">
-                        </div>
-                        <div class="product-grid" id="product-list">
-                            <!-- Products will be populated by JavaScript -->
-                        </div>
-                    </div>
-                    <div class="pos-right">
-                        <div class="cart-container">
-                            <h3>Shopping Cart</h3>
-                                <div class="modal-content" style="max-width:540px;overflow-y:auto;">
-                                    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between;">
-                                        <h3 style="margin:0;">Add Product to Inventory</h3>
-                                        <button class="close-btn" style="font-size:1.5rem;" onclick="document.getElementById('add-inventory-modal').classList.remove('active');document.getElementById('modal-overlay').classList.remove('active');">&times;</button>
-                                    </div>
-                                    <form class="modal-form" style="display:flex;flex-direction:column;gap:18px;max-height:60vh;overflow-y:auto;padding-right:8px;">
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-image">Product Image</label>
-                                            <input type="file" id="product-image" accept="image/*" style="width:100%;">
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-name">Product Name</label>
-                                            <input type="text" id="product-name" placeholder="e.g. Nike Air Max 270" style="width:100%;">
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-brand">Brand</label>
-                                            <input type="text" id="product-brand" placeholder="e.g. Nike" style="width:100%;">
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-category">Category</label>
-                                            <select id="product-category" style="width:100%;">
-                                                <option value="men">Men</option>
-                                                <option value="women">Women</option>
-                                                <option value="kids">Kids</option>
-                                                <option value="accessories">Accessories</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-price">Price</label>
-                                            <input type="number" id="product-price" placeholder="e.g. 8499" style="width:100%;">
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-size-tags">Sizes</label>
-                                            <div id="product-size-tags" style="display:flex;flex-wrap:wrap;gap:8px;padding:6px 0;border:1px solid #e2e8f0;border-radius:6px;background:#f7fafc;min-height:38px;margin-bottom:6px;width:100%;"></div>
-                                            <input type="text" id="product-size-input" placeholder="Type size and press Enter" style="margin-bottom:12px;width:100%;">
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-color-tags">Colors</label>
-                                            <div id="product-color-tags" style="display:flex;flex-wrap:wrap;gap:8px;padding:6px 0;border:1px solid #e2e8f0;border-radius:6px;background:#f7fafc;min-height:38px;margin-bottom:6px;width:100%;"></div>
-                                            <input type="text" id="product-color-input" placeholder="Type color and press Enter" style="width:100%;">
-                                        </div>
-                                        <div class="form-group" style="width:100%;">
-                                            <label for="product-stock">Stock (per size/color)</label>
-                                            <input type="number" id="product-stock" placeholder="e.g. 12" style="width:100%;">
-                                        </div>
-                                        <div class="form-actions" style="display:flex;justify-content:flex-end;gap:12px;width:100%;">
-                                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('add-inventory-modal').classList.remove('active');document.getElementById('modal-overlay').classList.remove('active');">Cancel</button>
-                                            <button type="button" class="btn btn-primary" id="add-to-inventory-btn">Add to Inventory</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reservation-tbody">
-                            <!-- Reservation items will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Reservation Section -->
-            <section id="reservation" class="content-section">
-                <div class="section-header">
-                    <h2>Reservation Management</h2>
-                    <button class="btn btn-primary" onclick="openAddReservationModal()">
-                        <i class="fas fa-plus"></i> New Reservation
-                    </button>
-                </div>
-                <div class="filters">
-                    <input type="text" id="search-reservation" placeholder="Search reservations..." class="search-input">
-                    <select id="status-filter" class="filter-select">
-                        <option value="">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
-                </div>
-                <div class="table-container">
-                    <table id="reservation-table" class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reservation-tbody">
-                            <!-- Reservation items will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
             <!-- Supplier Section -->
             <section id="supplier" class="content-section">
                 <div class="section-header">
-                    <h2>Supplier Management</h2>
+                    <h2 style="display:flex;align-items:center;gap:12px;"><i class="fas fa-people-carry-box"></i>Supplier Management</h2>
                     <button class="btn btn-primary" onclick="openAddSupplierModal()">
                         <i class="fas fa-plus"></i> Add Supplier
                     </button>
@@ -375,6 +218,156 @@
                             <!-- Supplier items will be populated by JavaScript -->
                         </tbody>
                     </table>
+                </div>
+            </section>
+
+            <!-- Reservation Reports Section -->
+            <section id="reservation-reports" class="content-section">
+                <div class="section-header">
+                    <h2 style="display:flex;align-items:center;gap:12px;"><i class="fas fa-chart-line"></i> Reservation Management</h2>
+                </div>
+                <!-- Analytics Cards -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 20px;">
+                    <div style="background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%); padding: 24px; border-radius: 12px; color: white;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Incomplete Reservations</h3>
+                        <p style="font-size: 2rem; font-weight: bold;">24</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #F59E0B 0%, #B45309 100%); padding: 24px; border-radius: 12px; color: white;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Expiring Soon</h3>
+                        <p style="font-size: 2rem; font-weight: bold;">8</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #EF4444 0%, #991B1B 100%); padding: 24px; border-radius: 12px; color: white;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Expiring Today</h3>
+                        <p style="font-size: 2rem; font-weight: bold;">3</p>
+                    </div>
+                </div>
+                
+                <!-- Search and Filter Bar -->
+                <div style="display: flex; gap: 16px; margin: 20px; align-items: center;">
+                    <input type="text" placeholder="Search reservations..." style="flex: 1; padding: 8px 16px; border: 1px solid #E2E8F0; border-radius: 8px;">
+                    <select style="padding: 8px 16px; border: 1px solid #E2E8F0; border-radius: 8px;">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <!-- Reservation Cards -->
+                <div style="margin: 20px; display: grid; gap: 16px;">
+                    <!-- Reservation Card 1 -->
+                    <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: center;">
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Reservation ID</p>
+                                <p style="font-weight: 600;">#RES001</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Customer Name</p>
+                                <p style="font-weight: 600;">John Doe</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Email</p>
+                                <p style="font-weight: 600;">john.doe@email.com</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Item Reserved</p>
+                                <p style="font-weight: 600;">Nike Air Max 270</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Reservation Date</p>
+                                <p style="font-weight: 600;">Sep 19, 2025</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Pickup Date</p>
+                                <p style="font-weight: 600;">Sep 22, 2025</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Status</p>
+                                <span style="display: inline-block; padding: 4px 12px; border-radius: 9999px; background-color: #FEF3C7; color: #92400E; font-weight: 500; font-size: 0.9rem;">Pending</span>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button style="min-width: 100px; padding: 8px 16px; border-radius: 8px; background-color: #2563EB; color: white; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Complete</button>
+                                <button style="min-width: 100px; padding: 8px 16px; border-radius: 8px; background-color: #DC2626; color: white; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reservation Card 2 -->
+                    <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: center;">
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Reservation ID</p>
+                                <p style="font-weight: 600;">#RES002</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Customer Name</p>
+                                <p style="font-weight: 600;">Jane Smith</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Email</p>
+                                <p style="font-weight: 600;">jane.smith@email.com</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Item Reserved</p>
+                                <p style="font-weight: 600;">Adidas Ultraboost 22</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Reservation Date</p>
+                                <p style="font-weight: 600;">Sep 18, 2025</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Pickup Date</p>
+                                <p style="font-weight: 600;">Sep 19, 2025</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Status</p>
+                                <span style="display: inline-block; padding: 4px 12px; border-radius: 9999px; background-color: #DCFCE7; color: #166534; font-weight: 500; font-size: 0.9rem;">Completed</span>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button style="min-width: 100px; padding: 8px 16px; border-radius: 8px; background-color: #6B7280; color: white; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Uncomplete</button>
+                                <button style="min-width: 100px; padding: 8px 16px; border-radius: 8px; background-color: #DC2626; color: white; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reservation Card 3 -->
+                    <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: center;">
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Reservation ID</p>
+                                <p style="font-weight: 600;">#RES003</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Customer Name</p>
+                                <p style="font-weight: 600;">Mike Johnson</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Email</p>
+                                <p style="font-weight: 600;">mike.j@email.com</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Item Reserved</p>
+                                <p style="font-weight: 600;">Converse Chuck Taylor</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Reservation Date</p>
+                                <p style="font-weight: 600;">Sep 15, 2025</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Pickup Date</p>
+                                <p style="font-weight: 600;">Sep 18, 2025</p>
+                            </div>
+                            <div>
+                                <p style="color: #6B7280; font-size: 0.9rem;">Status</p>
+                                <span style="display: inline-block; padding: 4px 12px; border-radius: 9999px; background-color: #FEE2E2; color: #991B1B; font-weight: 500; font-size: 0.9rem;">Cancelled</span>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button style="min-width: 100px; padding: 8px 16px; border-radius: 8px; background-color: #2563EB; color: white; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Complete</button>
+                                <button style="min-width: 100px; padding: 8px 16px; border-radius: 8px; background-color: #6B7280; color: white; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 500;" disabled>Cancelled</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -598,7 +591,7 @@
                     </div>
                     <div class="form-group">
                             <label for="product-size-tags">Sizes</label>
-                            <div id="product-size-tags" style="display:flex;flex-wrap:wrap;gap:8px;padding:6px 0;border:1px solid #e2e8f0;border-radius:6px;background:#f7fafc;min-height:38px;margin-bottom:6px;width:100%;"></div>
+                            <div id="product-size-tags" style="font-size:1rem;display:flex;flex-wrap:wrap;gap:8px;padding:6px 0;border:1px solid #e2e8f0;border-radius:6px;background:#f7fafc;min-height:38px;margin-bottom:6px;width:100%;"></div>
                             <div style="position:relative;display:flex;align-items:center;margin-bottom:12px;width:100%;">
                                 <input type="text" id="product-size-input" placeholder="Type size and press Enter" style="width:100%;padding-right:36px;font-size:1rem;">
                                 <button type="button" id="product-size-enter" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#2a6aff;padding:0;">

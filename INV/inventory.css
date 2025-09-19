@@ -755,6 +755,8 @@ body {
     display: none;
     height: 100%;
     overflow-y: auto;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .content-section.active {
@@ -1370,7 +1372,7 @@ body {
     border: 2px solid #ecf0f1;
     border-radius: 8px;
     font-size: 14px;
-    min-width: 250px;
+    min-width: 100%;
     transition: border-color 0.3s ease;
 }
 

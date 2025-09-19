@@ -126,7 +126,15 @@ function setupEventListeners() {
     const sectionSwitcher = document.getElementById('section-switcher');
     if (sectionSwitcher) {
         sectionSwitcher.addEventListener('change', function() {
-            navigateToSection(this.value);
+            // Hide all inventory sections
+            document.getElementById('pos-inventory').style.display = 'none';
+            document.getElementById('reservation-inventory').style.display = 'none';
+            // Show selected section
+            if (this.value === 'pos-inventory') {
+                document.getElementById('pos-inventory').style.display = '';
+            } else if (this.value === 'reservation') {
+                document.getElementById('reservation-inventory').style.display = '';
+            }
         });
     }
 
@@ -162,8 +170,8 @@ function setupEventListeners() {
                                     <i class="fas fa-plus" style="font-size:2rem;color:#2a6aff;"></i>
                                     <span style="margin-top:12px;font-size:1.2rem;color:#2a6aff;font-weight:600;">Add Product</span>
                                 `;
-                                card.style.minWidth = '240px';
-                                card.style.maxWidth = '240px';
+                                card.style.minWidth = '220px';
+                                card.style.maxWidth = '220px';
                                 card.style.height = '280px';
                                 card.style.flexDirection = 'column';
                                 card.style.alignItems = 'center';
@@ -208,8 +216,8 @@ function setupEventListeners() {
                                 <div style="font-size:0.8rem;color:#2a6aff;text-align:center;margin-top:4px;">Stock: ${data.stock}</div>
                                 <button type="button" class="btn btn-primary browse-btn" style="display:flex;align-items:center;justify-content:center;min-width:120px;height:36px;border-radius:8px;font-size:0.8rem;margin-top:16px;padding:0;" onclick="openUpdateProductModal('${data.name}')">Update</button>
                             `;
-                            card.style.minWidth = '240px';
-                            card.style.maxWidth = '240px';
+                            card.style.minWidth = '220px';
+                            card.style.maxWidth = '220px';
                             card.style.height = '280px';
                             card.style.flexDirection = 'column';
                             card.style.alignItems = 'center';
@@ -407,6 +415,7 @@ function navigateToSection(section) {
         'reservation-inventory': 'Reservation Inventory',
         'inventory-reports': 'Inventory Reports',
         'reservation': 'Reservation Management',
+        'reservation-reports': 'Reservation Management',
         'supplier': 'Supplier Management',
         'settings': 'Settings'
     };
