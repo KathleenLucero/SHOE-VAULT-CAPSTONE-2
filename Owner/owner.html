@@ -102,7 +102,6 @@
                                 <div class="kpi-value" id="kpi-total-stocks">0</div>
                                 <div class="kpi-label">Total Stocks</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-boxes"></i></div>
                         </div>
                     </div>
                     <div class="kpi-card gradient-card" style="flex:1;">
@@ -111,7 +110,6 @@
                                 <div class="kpi-value" id="kpi-inventory-items">0</div>
                                 <div class="kpi-label">No. of Inventory Items</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-list"></i></div>
                         </div>
                     </div>
                     <div class="kpi-card gradient-card" style="flex:1;">
@@ -120,7 +118,6 @@
                                 <div class="kpi-value" id="kpi-products-sold">0</div>
                                 <div class="kpi-label">No. of Products Sold</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-shopping-cart"></i></div>
                         </div>
                     </div>
                 </div>
@@ -202,7 +199,6 @@
                                 <div class="kpi-value" id="pos-kpi-transactions">0</div>
                                 <div class="kpi-label">Total No. of Transactions</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-receipt"></i></div>
                         </div>
                     </div>
                     <div class="kpi-card gradient-card" style="flex:1;">
@@ -211,7 +207,6 @@
                                 <div class="kpi-value" id="pos-kpi-revenue">₱0.00</div>
                                 <div class="kpi-label">Total Revenue</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-coins"></i></div>
                         </div>
                     </div>
                     <div class="kpi-card gradient-card" style="flex:1;">
@@ -220,13 +215,12 @@
                                 <div class="kpi-value" id="pos-kpi-quantity">0</div>
                                 <div class="kpi-label">Total Quantity Sold</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-cube"></i></div>
                         </div>
                     </div>
                 </div>
                 <!-- Charts and Most Sold Products Row -->
                 <div class="dashboard-charts-row" style="display: flex; gap: 24px;">
-                    <div class="card-lg" style="flex:2; display:flex; flex-direction:column;">
+                    <div class="card-lg" style="flex:2; display:flex; flex-direction:column; min-height: 340px;">
                         <div style="display:flex; align-items:center; justify-content:space-between;">
                             <div class="card-title">Sales Report</div>
                             <select id="sales-report-filter" class="filter-select filter-sm" style="min-width: 140px;">
@@ -237,7 +231,7 @@
                         </div>
                         <canvas id="pos-sales-report-chart" style="margin-top:18px;"></canvas>
                     </div>
-                    <div class="card-lg" style="flex:1; max-height:340px; overflow-y:auto;">
+                    <div class="card-lg" style="flex:1; overflow-y:auto;">
                         <div class="card-title">Most Sold Products</div>
                         <div id="most-sold-products-list" class="most-sold-list">
                             <!-- Mock data will be populated by JS -->
@@ -250,14 +244,12 @@
             <section id="reservation-inventory" class="content-section">
                 <div class="section-header with-left-actions">
                     <h2><i class="fas fa-calendar-check"></i> Reservation Dashboard</h2>
-                    <div style="display:flex; gap:10px; align-items:center; justify-content:space-between; width:100%;">
-                        <div style="margin-left:auto;">
-                            <select id="dashboard-scope" class="filter-select filter-sm" style="min-width: 60px;">
-                                <option value="inventory">Inventory</option>
-                                <option value="pos">POS</option>
-                                <option value="reservation" selected>Reservations</option>
-                            </select>
-                        </div>
+                    <div style="display:flex; align-items:center; justify-content:flex-end; width:100%;">
+                        <select id="dashboard-scope" class="filter-select filter-sm" style="min-width: 60px;">
+                            <option value="inventory">Inventory</option>
+                            <option value="pos">POS</option>
+                            <option value="reservation" selected>Reservations</option>
+                        </select>
                     </div>
                 </div>
                 <!-- KPI Cards Row -->
@@ -268,7 +260,6 @@
                                 <div class="kpi-value" id="reservation-kpi-total">0</div>
                                 <div class="kpi-label">Total Reservations</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-calendar-alt"></i></div>
                         </div>
                     </div>
                     <div class="kpi-card gradient-card" style="flex:1;">
@@ -277,7 +268,6 @@
                                 <div class="kpi-value" id="reservation-kpi-completed">0</div>
                                 <div class="kpi-label">Completed Reservations</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
                         </div>
                     </div>
                     <div class="kpi-card gradient-card" style="flex:1;">
@@ -286,13 +276,12 @@
                                 <div class="kpi-value" id="reservation-kpi-cancelled">0</div>
                                 <div class="kpi-label">Cancelled Reservations</div>
                             </div>
-                            <div class="kpi-icon"><i class="fas fa-times-circle"></i></div>
                         </div>
                     </div>
                 </div>
                 <!-- Charts and Popular Products Row -->
                 <div class="dashboard-charts-row" style="display: flex; gap: 24px;">
-                    <div class="card-lg" style="flex:2; display:flex; flex-direction:column;">
+                    <div class="card-lg" style="flex:2; display:flex; flex-direction:column; min-height: 340px;">
                         <div style="display:flex; align-items:center; justify-content:space-between;">
                             <div class="card-title">Reservation Report</div>
                             <select id="reservation-report-filter" class="filter-select filter-sm" style="min-width: 140px;">
@@ -303,7 +292,7 @@
                         </div>
                         <canvas id="reservation-report-chart" style="margin-top:18px;"></canvas>
                     </div>
-                    <div class="card-lg" style="flex:1; max-height:340px; overflow-y:auto;">
+                    <div class="card-lg" style="flex:1; overflow-y:auto;">
                         <div class="card-title">Popular Reserved Products</div>
                         <div id="popular-reserved-products-list" class="most-sold-list">
                             <!-- Mock data will be populated by JS -->
@@ -589,9 +578,9 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // KPIs
-    document.getElementById('reservation-kpi-total').textContent = reservations.length;
-    document.getElementById('reservation-kpi-completed').textContent = reservations.filter(r => r.status === 'completed').length;
-    document.getElementById('reservation-kpi-cancelled').textContent = reservations.filter(r => r.status === 'cancelled').length;
+    document.getElementById('reservation-kpi-total').innerHTML = `<i class="fas fa-calendar-alt"></i> ${reservations.length}`;
+    document.getElementById('reservation-kpi-completed').innerHTML = `<i class="fas fa-check-circle"></i> ${reservations.filter(r => r.status === 'completed').length}`;
+    document.getElementById('reservation-kpi-cancelled').innerHTML = `<i class="fas fa-times-circle"></i> ${reservations.filter(r => r.status === 'cancelled').length}`;
 
     // Line Chart Data (weekly, quarterly, annually)
     function getChartData(filter) {
@@ -624,16 +613,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: 'Reservations',
                     data: chartData.data,
-                    borderColor: '#2a6aff',
-                    backgroundColor: 'rgba(42,106,255,0.1)',
+                    borderColor: '#ffffff',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
                     fill: true,
-                    tension: 0.3
+                    tension: 0.3,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#ffffff',
+                    pointRadius: 4
                 }]
             },
             options: {
                 responsive: true,
                 plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
+                scales: { 
+                    x: { 
+                        grid: { color: 'rgba(255, 255, 255, 0.3)' },
+                        ticks: { color: '#ffffff' }
+                    },
+                    y: { 
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.3)' },
+                        ticks: { color: '#ffffff' }
+                    }
+                }
             }
         });
     }

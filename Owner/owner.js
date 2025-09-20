@@ -95,9 +95,9 @@ function updatePOSKPIs() {
     const totalTransactions = posTransactions.length;
     const totalRevenue = posTransactions.reduce((sum, t) => sum + t.amount, 0);
     const totalQty = posTransactions.reduce((sum, t) => sum + t.qty, 0);
-    document.getElementById('pos-kpi-transactions').textContent = totalTransactions;
-    document.getElementById('pos-kpi-revenue').textContent = `₱${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
-    document.getElementById('pos-kpi-quantity').textContent = totalQty;
+    document.getElementById('pos-kpi-transactions').innerHTML = `<i class="fas fa-receipt"></i> ${totalTransactions}`;
+    document.getElementById('pos-kpi-revenue').innerHTML = `<i class="fas fa-money-bill-wave"></i> ₱${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    document.getElementById('pos-kpi-quantity').innerHTML = `<i class="fas fa-boxes"></i> ${totalQty}`;
 }
 
 // --- Sales Report Chart ---
@@ -133,7 +133,9 @@ function renderSalesReportChart(filter = 'weekly') {
             datasets: [{
                 label: 'Sales',
                 data: report.data,
-                backgroundColor: 'rgba(42,106,255,0.7)',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                borderColor: '#ffffff',
+                borderWidth: 2,
                 borderRadius: 8,
             }]
         },
@@ -144,8 +146,15 @@ function renderSalesReportChart(filter = 'weekly') {
                 title: { display: false }
             },
             scales: {
-                x: { grid: { display: false } },
-                y: { beginAtZero: true }
+                x: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.3)' },
+                    ticks: { color: '#ffffff' }
+                },
+                y: { 
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.3)' },
+                    ticks: { color: '#ffffff' }
+                }
             }
         }
     });
@@ -206,17 +215,17 @@ function updateKPIs() {
     const totalStocks = inventoryData.reduce((sum, item) => sum + item.stock, 0);
     const inventoryItems = inventoryData.length;
     const productsSold = inventoryData.reduce((sum, item) => sum + item.sold, 0);
-    document.getElementById('kpi-total-stocks').textContent = totalStocks;
-    document.getElementById('kpi-inventory-items').textContent = inventoryItems;
-    document.getElementById('kpi-products-sold').textContent = productsSold;
+    document.getElementById('kpi-total-stocks').innerHTML = `<i class="fas fa-cube"></i> ${totalStocks}`;
+    document.getElementById('kpi-inventory-items').innerHTML = `<i class="fas fa-list-ul"></i> ${inventoryItems}`;
+    document.getElementById('kpi-products-sold').innerHTML = `<i class="fas fa-shopping-bag"></i> ${productsSold}`;
 }
 
 // --- Bar Chart: Product Stocks by Brand ---
 function renderStocksByBrandChart() {
+    // Add more brands for demo
+    const demoBrands = ['Nike', 'Adidas', 'Puma', 'Reebok', 'New Balance', 'Converse', 'Vans', 'Fila'];
     const brandMap = {};
-    inventoryData.forEach(item => {
-        brandMap[item.brand] = (brandMap[item.brand] || 0) + item.stock;
-    });
+    demoBrands.forEach(b => { brandMap[b] = Math.floor(Math.random() * 100) + 10; });
     const brands = Object.keys(brandMap);
     const stocks = Object.values(brandMap);
     const ctx = document.getElementById('chart-stocks-brand').getContext('2d');
@@ -227,14 +236,12 @@ function renderStocksByBrandChart() {
             datasets: [{
                 label: 'Stocks',
                 data: stocks,
-                backgroundColor: [
-                    'rgba(42,106,255,0.7)',
-                    'rgba(111,134,214,0.7)',
-                    'rgba(60,180,75,0.7)',
-                    'rgba(255,165,0,0.7)',
-                    'rgba(255,99,132,0.7)'
-                ],
-                borderRadius: 8,
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                borderColor: 'rgba(255,255,255,0.95)',
+                borderWidth: 0,
+                borderRadius: 10,
+                barPercentage: 0.55,
+                categoryPercentage: 0.65
             }]
         },
         options: {
@@ -244,8 +251,15 @@ function renderStocksByBrandChart() {
                 title: { display: false }
             },
             scales: {
-                x: { grid: { display: false } },
-                y: { beginAtZero: true }
+                x: {
+                    grid: { color: 'rgba(255,255,255,0.15)' },
+                    ticks: { color: '#fff', font: { weight: 'bold' } }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.15)' },
+                    ticks: { color: '#fff', font: { weight: 'bold' } }
+                }
             }
         }
     });
@@ -259,8 +273,8 @@ function renderSoldByCategoryChart() {
             categoryMap[item.category] += item.sold;
         }
     });
-    const categories = ['Men', 'Women', 'Kids', 'Accessories'];
-    const soldCounts = [categoryMap.men, categoryMap.women, categoryMap.kids, categoryMap.accessories];
+    const categories = ['Men', 'Women', 'Accessories'];
+    const soldCounts = [categoryMap.men, categoryMap.women, categoryMap.accessories];
     const ctx = document.getElementById('chart-sold-category').getContext('2d');
     new Chart(ctx, {
         type: 'pie',
@@ -270,18 +284,21 @@ function renderSoldByCategoryChart() {
                 label: 'Products Sold',
                 data: soldCounts,
                 backgroundColor: [
-                    'rgba(42,106,255,0.8)',
-                    'rgba(255,99,132,0.8)',
-                    'rgba(255,206,86,0.8)',
-                    'rgba(111,134,214,0.8)'
+                    '#00ab9ad0',   // teal
+                    '#00d4ff',   // cyan
+                    '#aff8d5ff',   // green
                 ],
-                borderWidth: 2,
+                borderColor: 'transparent',
+                borderWidth: 0,
             }]
         },
         options: {
             responsive: true,
             plugins: {
-                legend: { position: 'bottom' },
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#fff', font: { weight: 'bold' } }
+                },
                 title: { display: false }
             }
         }
