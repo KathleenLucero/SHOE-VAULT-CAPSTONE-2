@@ -126,23 +126,50 @@ function renderSalesReportChart(filter = 'weekly') {
     const ctx = document.getElementById('pos-sales-report-chart').getContext('2d');
     const report = getSalesReportData(filter);
     if (posSalesChart) posSalesChart.destroy();
+    // Linear regression calculation
+    function linearRegression(y) {
+        const n = y.length;
+        const x = Array.from({length: n}, (_, i) => i+1);
+        const sumX = x.reduce((a,b) => a+b, 0);
+        const sumY = y.reduce((a,b) => a+b, 0);
+        const sumXY = x.reduce((a,_,i) => a + x[i]*y[i], 0);
+        const sumX2 = x.reduce((a,xi) => a + xi*xi, 0);
+        const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX);
+        const intercept = (sumY - slope*sumX) / n;
+        return x.map(xi => slope*xi + intercept);
+    }
+    const regression = linearRegression(report.data);
     posSalesChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: report.labels,
-            datasets: [{
-                label: 'Sales',
-                data: report.data,
-                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                borderColor: '#ffffff',
-                borderWidth: 2,
-                borderRadius: 8,
-            }]
+            datasets: [
+                {
+                    label: 'Sales',
+                    data: report.data,
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    order: 1,
+                },
+                {
+                    label: 'Trend',
+                    data: regression,
+                    type: 'line',
+                    fill: false,
+                    borderColor: '#00e676',
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    tension: 0.2,
+                    order: 2,
+                }
+            ]
         },
         options: {
             responsive: true,
             plugins: {
-                legend: { display: false },
+                legend: { display: true },
                 title: { display: false }
             },
             scales: {
