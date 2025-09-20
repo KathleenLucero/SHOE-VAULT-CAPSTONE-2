@@ -1,3 +1,98 @@
+/* POS KPI Cards and Most Sold Products Styles */
+.gradient-row {
+    background: none;
+}
+.gradient-card {
+    background: linear-gradient(90deg, #2a6aff 0%, #6f86d6 100%);
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(42,106,255,0.08);
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    transition: box-shadow 0.2s;
+}
+.gradient-card .kpi-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.gradient-card .kpi-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.gradient-card .kpi-label {
+    font-size: 1.05rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+.gradient-card .kpi-icon {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+.most-sold-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+.most-sold-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f7f9fc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 1px 4px rgba(42,106,255,0.06);
+    font-size: 1rem;
+    font-weight: 500;
+}
+.most-sold-item .product-name {
+    font-weight: 600;
+    color: #2a6aff;
+}
+.most-sold-item .product-qty {
+    font-weight: 700;
+    color: #333;
+}
+/* Gradient background for dashboard KPI cards and row */
+.gradient-row {
+    background: none;
+}
+
+.gradient-card {
+    background: linear-gradient(90deg, #2a6aff 0%, #6f86d6 100%);
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(42,106,255,0.08);
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    transition: box-shadow 0.2s;
+}
+.gradient-card .kpi-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.gradient-card .kpi-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.gradient-card .kpi-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+.gradient-card .kpi-icon {
+    font-size: 2.2rem;
+    opacity: 0.8;
+}
 /* ===== CSS VARIABLES ===== */
 
 :root {
@@ -792,6 +887,7 @@ body {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    width: 100%;
 }
 
 .section-header h2 i {
@@ -1371,7 +1467,7 @@ body {
 
 .filter-select {
     padding: 12px 15px;
-    border: 2px solid #ecf0f1;
+    border: 2px solid transparent;
     border-radius: 8px;
     font-size: 14px;
     background: white;
@@ -1381,7 +1477,7 @@ body {
 
 .filter-select:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: #fff;
 }
 
 

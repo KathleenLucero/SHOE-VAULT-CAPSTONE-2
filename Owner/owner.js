@@ -1,3 +1,299 @@
+// --- Sync Main Section Dropdown and Dashboard Filter ---
+document.addEventListener('DOMContentLoaded', function() {
+    const mainDropdown = document.getElementById('section-dropdown');
+    const dashFilter = document.getElementById('dashboard-scope');
+    const dashFilterContainer = document.querySelector('.dash-filter');
+    // List of dashboard section IDs
+    const dashboardSections = ['inventory-dashboard', 'pos-inventory', 'reservation-inventory'];
+    function showSection(sectionId) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = 'none';
+            section.classList.remove('active');
+        });
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = '';
+            section.classList.add('active');
+        }
+        // Sync all dashboard-scope dropdowns to match the current section
+        document.querySelectorAll('#dashboard-scope').forEach(function(filter) {
+            if (sectionId === 'inventory-dashboard') filter.value = 'inventory';
+            else if (sectionId === 'pos-inventory') filter.value = 'pos';
+            else if (sectionId === 'reservation-inventory') filter.value = 'reservation';
+        });
+        // Sync mainDropdown if present
+        if (mainDropdown) {
+            mainDropdown.value = sectionId;
+        }
+    }
+    window.showSection = showSection;
+
+    if (mainDropdown) {
+        mainDropdown.addEventListener('change', function() {
+            showSection(mainDropdown.value);
+        });
+    }
+        // Support multiple dashboard filters (one per section)
+        document.querySelectorAll('#dashboard-scope').forEach(function(filter) {
+            filter.addEventListener('change', function() {
+                if (filter.value === 'inventory') showSection('inventory-dashboard');
+                else if (filter.value === 'pos') showSection('pos-inventory');
+                else if (filter.value === 'reservation') showSection('reservation-inventory');
+            });
+        });
+    // Initial state: show inventory dashboard
+    showSection('inventory-dashboard');
+});
+// --- Dashboard Scope Filter Navigation ---
+document.addEventListener('DOMContentLoaded', function() {
+    const dashFilter = document.getElementById('dashboard-scope');
+    // Remove Add Product button logic and ensure dropdown selected option is correct
+    if (dashFilter) {
+        dashFilter.addEventListener('change', function() {
+            const val = dashFilter.value;
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            });
+            if (val === 'inventory') {
+                document.getElementById('inventory-dashboard').style.display = '';
+                document.getElementById('inventory-dashboard').classList.add('active');
+                dashFilter.value = 'inventory';
+            } else if (val === 'pos') {
+                document.getElementById('pos-inventory').style.display = '';
+                document.getElementById('pos-inventory').classList.add('active');
+                dashFilter.value = 'pos';
+            } else if (val === 'reservation') {
+                document.getElementById('reservation-inventory').style.display = '';
+                document.getElementById('reservation-inventory').classList.add('active');
+                dashFilter.value = 'reservation';
+            }
+        });
+        // Initial state: show inventory dashboard and set dropdown
+        document.querySelectorAll('.content-section').forEach(section => {
+            if (section.id === 'inventory-dashboard') {
+                section.style.display = '';
+                section.classList.add('active');
+                dashFilter.value = 'inventory';
+            } else {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            }
+        });
+    }
+});
+// --- POS Dashboard Data Example ---
+const posTransactions = [
+    { id: 1, date: '2025-09-01', amount: 5000, qty: 3, products: [{ name: 'Air Max', qty: 2 }, { name: 'Stan Smith', qty: 1 }] },
+    { id: 2, date: '2025-09-02', amount: 3500, qty: 2, products: [{ name: 'Superstar', qty: 2 }] },
+    { id: 3, date: '2025-09-03', amount: 8000, qty: 5, products: [{ name: 'Slides', qty: 3 }, { name: 'Classic', qty: 2 }] },
+    { id: 4, date: '2025-09-04', amount: 12000, qty: 7, products: [{ name: 'Air Max', qty: 4 }, { name: 'Stan Smith', qty: 3 }] },
+    { id: 5, date: '2025-09-05', amount: 4000, qty: 2, products: [{ name: 'Classic', qty: 2 }] },
+];
+
+function updatePOSKPIs() {
+    const totalTransactions = posTransactions.length;
+    const totalRevenue = posTransactions.reduce((sum, t) => sum + t.amount, 0);
+    const totalQty = posTransactions.reduce((sum, t) => sum + t.qty, 0);
+    document.getElementById('pos-kpi-transactions').textContent = totalTransactions;
+    document.getElementById('pos-kpi-revenue').textContent = `₱${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    document.getElementById('pos-kpi-quantity').textContent = totalQty;
+}
+
+// --- Sales Report Chart ---
+function getSalesReportData(filter) {
+    // Mock: group by week, quarter, year
+    if (filter === 'weekly') {
+        return {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: [12000, 8000, 15000, 10000]
+        };
+    } else if (filter === 'quarterly') {
+        return {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            data: [32000, 28000, 35000, 30000]
+        };
+    } else {
+        return {
+            labels: ['2023', '2024', '2025'],
+            data: [120000, 135000, 142000]
+        };
+    }
+}
+
+let posSalesChart;
+function renderSalesReportChart(filter = 'weekly') {
+    const ctx = document.getElementById('pos-sales-report-chart').getContext('2d');
+    const report = getSalesReportData(filter);
+    if (posSalesChart) posSalesChart.destroy();
+    posSalesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: report.labels,
+            datasets: [{
+                label: 'Sales',
+                data: report.data,
+                backgroundColor: 'rgba(42,106,255,0.7)',
+                borderRadius: 8,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: { display: false }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+// --- Most Sold Products List ---
+function getMostSoldProducts() {
+    // Aggregate mock data
+    const productMap = {};
+    posTransactions.forEach(t => {
+        t.products.forEach(p => {
+            productMap[p.name] = (productMap[p.name] || 0) + p.qty;
+        });
+    });
+    // Sort by qty desc
+    return Object.entries(productMap)
+        .map(([name, qty]) => ({ name, qty }))
+        .sort((a, b) => b.qty - a.qty);
+}
+
+function renderMostSoldProductsList() {
+    const list = document.getElementById('most-sold-products-list');
+    if (!list) return;
+    list.innerHTML = '';
+    const products = getMostSoldProducts();
+    products.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'most-sold-item';
+        item.innerHTML = `<span class="product-name">${p.name}</span><span class="product-qty">${p.qty} sold</span>`;
+        list.appendChild(item);
+    });
+}
+
+// --- POS Dashboard Init ---
+document.addEventListener('DOMContentLoaded', function() {
+    updatePOSKPIs();
+    renderSalesReportChart();
+    renderMostSoldProductsList();
+    const filter = document.getElementById('sales-report-filter');
+    if (filter) {
+        filter.addEventListener('change', function() {
+            renderSalesReportChart(filter.value);
+        });
+    }
+});
+// --- Dashboard Data Example ---
+// Replace with your actual inventory and sales data source
+const inventoryData = [
+    { id: 1, name: 'Air Max', brand: 'Nike', category: 'men', stock: 20, price: 5000, sold: 12 },
+    { id: 2, name: 'Superstar', brand: 'Adidas', category: 'women', stock: 15, price: 4500, sold: 8 },
+    { id: 3, name: 'Classic', brand: 'Converse', category: 'kids', stock: 10, price: 3000, sold: 5 },
+    { id: 4, name: 'Slides', brand: 'Nike', category: 'accessories', stock: 25, price: 1500, sold: 20 },
+    { id: 5, name: 'Stan Smith', brand: 'Adidas', category: 'men', stock: 18, price: 4800, sold: 10 },
+];
+
+// --- KPI Cards ---
+function updateKPIs() {
+    const totalStocks = inventoryData.reduce((sum, item) => sum + item.stock, 0);
+    const inventoryItems = inventoryData.length;
+    const productsSold = inventoryData.reduce((sum, item) => sum + item.sold, 0);
+    document.getElementById('kpi-total-stocks').textContent = totalStocks;
+    document.getElementById('kpi-inventory-items').textContent = inventoryItems;
+    document.getElementById('kpi-products-sold').textContent = productsSold;
+}
+
+// --- Bar Chart: Product Stocks by Brand ---
+function renderStocksByBrandChart() {
+    const brandMap = {};
+    inventoryData.forEach(item => {
+        brandMap[item.brand] = (brandMap[item.brand] || 0) + item.stock;
+    });
+    const brands = Object.keys(brandMap);
+    const stocks = Object.values(brandMap);
+    const ctx = document.getElementById('chart-stocks-brand').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: brands,
+            datasets: [{
+                label: 'Stocks',
+                data: stocks,
+                backgroundColor: [
+                    'rgba(42,106,255,0.7)',
+                    'rgba(111,134,214,0.7)',
+                    'rgba(60,180,75,0.7)',
+                    'rgba(255,165,0,0.7)',
+                    'rgba(255,99,132,0.7)'
+                ],
+                borderRadius: 8,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: { display: false }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+// --- Pie Chart: Products Sold by Category ---
+function renderSoldByCategoryChart() {
+    const categoryMap = { men: 0, women: 0, kids: 0, accessories: 0 };
+    inventoryData.forEach(item => {
+        if (categoryMap[item.category] !== undefined) {
+            categoryMap[item.category] += item.sold;
+        }
+    });
+    const categories = ['Men', 'Women', 'Kids', 'Accessories'];
+    const soldCounts = [categoryMap.men, categoryMap.women, categoryMap.kids, categoryMap.accessories];
+    const ctx = document.getElementById('chart-sold-category').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: categories,
+            datasets: [{
+                label: 'Products Sold',
+                data: soldCounts,
+                backgroundColor: [
+                    'rgba(42,106,255,0.8)',
+                    'rgba(255,99,132,0.8)',
+                    'rgba(255,206,86,0.8)',
+                    'rgba(111,134,214,0.8)'
+                ],
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                title: { display: false }
+            }
+        }
+    });
+}
+
+// --- Initialize Dashboard ---
+document.addEventListener('DOMContentLoaded', function() {
+    updateKPIs();
+    renderStocksByBrandChart();
+    renderSoldByCategoryChart();
+});
 // Global variables
 let inventory = [];
 let reservations = [];
@@ -157,8 +453,8 @@ function navigateToSection(section) {
     // Update page title
     const pageTitle = document.getElementById('page-title');
     const titles = {
-        'inventory': 'Inventory Dashboard',
-        'inventory-dashboard': 'Inventory Dashboard',
+        'inventory': 'Dashboard',
+        'inventory-dashboard': 'Dashboard',
         'inventory-list': 'Inventory - Inventory List',
         'pos-inventory': 'POS',
         'reservation-inventory': 'Reservation Inventory',
